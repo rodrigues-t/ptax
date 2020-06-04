@@ -1,12 +1,10 @@
 import React from 'react';
-import Global from './../../GloabalVars';
-import moment from 'moment';
-import ModalError from '../Modals/ModalError';
-
-import './../../datepicker.css'
-
+import { format } from "date-fns";
 import 'react-datepicker/dist/react-datepicker.css';
 
+import Global from './../../GloabalVars';
+import ModalError from '../Modals/ModalError';
+import './../../datepicker.css'
 import PerDay from '../PerDay/perDay'
 
 class PerDayContainer extends React.Component {
@@ -23,9 +21,9 @@ class PerDayContainer extends React.Component {
             // Moeda da última busca ocorrida com sucesso
             displayedCurrency: "USD",
             // Data selecionada para busca
-            selectedDate: moment(),
+            selectedDate: new Date(),
             // Data da última busca ocorrida com sucesso
-            displayedDate: moment(),
+            displayedDate: new Date(),
             // Está buscando moedas?
             isLoadingCurrencies: false,
             // Está buscando câmbio?
@@ -68,7 +66,7 @@ class PerDayContainer extends React.Component {
         this.setState({ isLoadingExchangeRate: true, isPristine: false });
         fetch(Global.RequestURLs.exchangeRateDay
             .replace("@CURRENCY", this.state.selectedCurrency)
-            .replace("@DATERATE", moment(this.state.selectedDate).format("MM-DD-YYYY")), {
+            .replace("@DATERATE", format(this.state.selectedDate, "MM-dd-yyyy")), {
             headers: {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json'

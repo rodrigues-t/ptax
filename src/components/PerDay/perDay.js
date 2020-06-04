@@ -2,6 +2,7 @@ import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import DatePicker from 'react-datepicker';
 import moment from 'moment';
+import { format } from "date-fns";
 
 const PerDay = props => {
     let currencyOptions = props.currencyOptions;
@@ -37,7 +38,7 @@ const PerDay = props => {
                                     escapeWithReference: false
                                 }
                             }}
-                            dateFormat="DD/MM/YYYY"
+                            dateFormat="dd/MM/yyyy"
                             selected={props.selectedDate}
                             onChange={props.dateChangeEvent}
                             className="form-control" />
@@ -69,7 +70,7 @@ const PerDay = props => {
             props.rates.length > 0 &&
             <div className="card">
                 <div className="card-header">
-                    <span>{props.displayedCurrency + " - " + moment(props.displayedDate).format('DD/MM/YYYY')}</span>
+                    <span>{props.displayedCurrency + " - " + format(props.displayedDate, "dd/MM/yyyy")}</span>
                 </div>
                 <div className="card-body p-0">                        
                     <table className="table table-striped">
