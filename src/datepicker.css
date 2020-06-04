@@ -1,0 +1,26 @@
+div#groupDate .react-datepicker-wrapper .react-datepicker__input-container input {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;    
+}
+div#groupDate > div:nth-child(2n)  {    
+    position: relative;
+    flex: 1 1 auto;   
+    width: 1%; 
+}
+
+div#groupDate div:nth-child(2) .react-datepicker-wrapper {    
+    width: 100%
+}                                                        
+.react-datepicker__input-container{
+    width: 100%
+}
+/*div#groupDate div:nth-child(2) .react-datepicker-wrapper .react-datepicker__input-container {    
+    width: 100%
+}*/
+
+.elip {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 110px;
+}
