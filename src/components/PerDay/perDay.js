@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import DatePicker from 'react-datepicker';
 import moment from 'moment';
 import { format } from "date-fns";
+import { Row, Col } from 'react-bootstrap';
 
 const PerDay = props => {
     let currencyOptions = props.currencyOptions;
@@ -12,8 +13,8 @@ const PerDay = props => {
                 <div className="form-row">
                     <div className="input-group form-group col-sm-6">
                         <div className="input-group-prepend">
-                            <span className="input-group-text" htmlFor="selectCurrencies">                                
-                            <FontAwesomeIcon icon="coins" />
+                            <span className="input-group-text" htmlFor="selectCurrencies">
+                                <FontAwesomeIcon icon="coins" />
                             </span>
                         </div>
                         <select id="selectCurrencies" className="custom-select"
@@ -42,67 +43,67 @@ const PerDay = props => {
                             selected={props.selectedDate}
                             onChange={props.dateChangeEvent}
                             className="form-control" />
-                    </div>                    
+                    </div>
                     <div className="form-group col-sm-2">
-                        <button onClick={props.quotationClick} className="btn btn-secondary btn-block">enviar <FontAwesomeIcon icon="arrow-right"></FontAwesomeIcon></button>
-                    </div>                    
-                </div>                    
+                        <button onClick={props.quotationClick} className="btn btn-secondary btn-block">enviar <FontAwesomeIcon icon="arrow-right" size="sm"></FontAwesomeIcon></button>
+                    </div>
+                </div>
             </form>
             {
                 props.rates.length === 0 && !props.isPristine && !props.isLoadingExchangeRate && !props.isLastLoadingFail &&
-                <div className="row">
-                    <div className="col text-center">
+                <Row>
+                    <Col className="text-center">
                         <hr />
                         <span className="text-danger">Não existe cotações para a data escolhida</span>
-                    </div>
-                </div>
+                    </Col>
+                </Row>
             }
             {
                 props.isLoadingExchangeRate &&
-                <div className="row">
-                    <div className="col text-center">
-                        <hr />                            
+                <Row>
+                    <Col className="text-center">
+                        <hr />
                         <FontAwesomeIcon icon="spinner" size="3x" color="red" spin />
-                    </div>
-                </div>
+                    </Col>
+                </Row>
             }
             {
-            props.rates.length > 0 &&
-            <div className="card">
-                <div className="card-header">
-                    <span>{props.displayedCurrency + " - " + format(props.displayedDate, "dd/MM/yyyy")}</span>
-                </div>
-                <div className="card-body p-0">                        
-                    <table className="table table-striped">
-                        <thead>
-                            <tr>
-                                <th>Compra</th>
-                                <th>Venda</th>
-                                <th className="d-none d-sm-block">Hora</th>
-                                <th>Boletim</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {props.rates.map((rate, i) => {
-                                return (
+                props.rates.length > 0 &&
+                <div className="card">
+                    <div className="card-header">
+                        <span>{props.displayedCurrency + " - " + format(props.displayedDate, "dd/MM/yyyy")}</span>
+                    </div>
+                    <div className="card-body p-0">
+                        <table className="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Compra</th>
+                                    <th>Venda</th>
+                                    <th className="d-none d-sm-block">Hora</th>
+                                    <th>Boletim</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {props.rates.map((rate, i) => {
+                                    return (
 
-                                    <tr key={i}>
-                                        <td className="text-primary">                                            
-                                            {moment(rate.dataHoraCotacao).isSameOrAfter(moment('01/07/1994', 'DD/MM/YYYY')) && "R$"}
-                                            {rate.cotacaoCompra}</td>
-                                        <td className="text-success">
-                                            {moment(rate.dataHoraCotacao).isSameOrAfter(moment('01/07/1994', 'DD/MM/YYYY')) && "R$"}{rate.cotacaoVenda}</td>
-                                        <td className="d-none d-sm-block">{moment(rate.dataHoraCotacao).format('HH:mm:ss')}</td>
-                                        <td className="elip small">{rate.tipoBoletim}</td>                                            
-                                    </tr>
-                                )
-                            })}
-                        </tbody>
-                    </table>
-                </div>
-            </div>}            
+                                        <tr key={i}>
+                                            <td className="text-primary">
+                                                {moment(rate.dataHoraCotacao).isSameOrAfter(moment('01/07/1994', 'DD/MM/YYYY')) && "R$"}
+                                                {rate.cotacaoCompra}</td>
+                                            <td className="text-success">
+                                                {moment(rate.dataHoraCotacao).isSameOrAfter(moment('01/07/1994', 'DD/MM/YYYY')) && "R$"}{rate.cotacaoVenda}</td>
+                                            <td className="d-none d-sm-block">{moment(rate.dataHoraCotacao).format('HH:mm:ss')}</td>
+                                            <td className="elip small">{rate.tipoBoletim}</td>
+                                        </tr>
+                                    )
+                                })}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>}
         </div>
     );
-} 
+}
 
 export default PerDay;

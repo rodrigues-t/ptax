@@ -11,32 +11,22 @@ import PerDay from './components/PerDay';
 import { library } from '@fortawesome/fontawesome-svg-core'
 //import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCoins, faCalendarAlt, faSpinner, faArrowRight } from '@fortawesome/free-solid-svg-icons'
+import { Container } from 'react-bootstrap';
 
 library.add(faCoins, faCalendarAlt, faSpinner, faArrowRight);
 
 class App extends Component {
   render() {
     return (
-      <div>
+      <>
         <Navigation />
-        <div className="container-fluid">
+        <Container fluid className="mt-2">
           <Switch>
             <Route exact path="/" component={Intro} />
             <Route exact path="/dia" component={PerDay} />
           </Switch>
-        </div>
-      </div>
-      
-      // <div className="App">
-      //   <header className="App-header">
-      //     <img src={logo} className="App-logo" alt="logo" />
-      //     <h1 className="App-title">Welcome to React</h1>
-      //     <span class="text-danger">teste</span>
-      //   </header>
-      //   <p className="App-intro">
-      //     To get started, edit <code>src/App.js</code> and save to reload.
-      //   </p>
-      // </div>
+        </Container>
+      </>
     );
   }
 }
