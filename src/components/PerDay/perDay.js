@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import DatePicker from 'react-datepicker';
 import moment from 'moment';
 import { format } from "date-fns";
-import { Row, Col } from 'react-bootstrap';
+import { Row, Col, Card, Table } from 'react-bootstrap';
 
 const PerDay = props => {
     let currencyOptions = props.currencyOptions;
@@ -69,39 +69,45 @@ const PerDay = props => {
             }
             {
                 props.rates.length > 0 &&
-                <div className="card">
-                    <div className="card-header">
-                        <span>{props.displayedCurrency + " - " + format(props.displayedDate, "dd/MM/yyyy")}</span>
-                    </div>
-                    <div className="card-body p-0">
-                        <table className="table table-striped">
+                <Card>
+                    <Card.Header>
+                        <span>
+                            {
+                                props.displayedCurrency + " - " + format(props.displayedDate, "dd/MM/yyyy")
+                            }
+                        </span>
+                    </Card.Header>
+                    <Card.Body className="p-0">
+                        <Table className="the-table" hover responsive striped>
                             <thead>
                                 <tr>
+                                    <th>Boletim</th>
                                     <th>Compra</th>
                                     <th>Venda</th>
-                                    <th className="d-none d-sm-block">Hora</th>
-                                    <th>Boletim</th>
+                                    <th>Hora</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {props.rates.map((rate, i) => {
                                     return (
-
                                         <tr key={i}>
-                                            <td className="text-primary">
+                                            <td className="small td-table-day-ptax">{rate.tipoBoletim}</td>
+                                            <td className="text-primary td-table-day-ptax">
                                                 {moment(rate.dataHoraCotacao).isSameOrAfter(moment('01/07/1994', 'DD/MM/YYYY')) && "R$"}
-                                                {rate.cotacaoCompra}</td>
-                                            <td className="text-success">
-                                                {moment(rate.dataHoraCotacao).isSameOrAfter(moment('01/07/1994', 'DD/MM/YYYY')) && "R$"}{rate.cotacaoVenda}</td>
-                                            <td className="d-none d-sm-block">{moment(rate.dataHoraCotacao).format('HH:mm:ss')}</td>
-                                            <td className="elip small">{rate.tipoBoletim}</td>
+                                                {rate.cotacaoCompra}
+                                            </td>
+                                            <td className="text-success td-table-day-ptax">
+                                                {moment(rate.dataHoraCotacao).isSameOrAfter(moment('01/07/1994', 'DD/MM/YYYY')) && "R$"}{rate.cotacaoVenda}
+                                            </td>
+                                            <td className="td-table-day-ptax">{moment(rate.dataHoraCotacao).format('HH:mm:ss')}</td>
                                         </tr>
                                     )
                                 })}
                             </tbody>
-                        </table>
-                    </div>
-                </div>}
+                        </Table>
+                    </Card.Body>
+                </Card>
+            }
         </div>
     );
 }

@@ -24,3 +24,7 @@ div#groupDate div:nth-child(2) .react-datepicker-wrapper {
     text-overflow: ellipsis;
     max-width: 110px;
 }
+
+.td-table-day-ptax {
+    white-space: nowrap;
+}
