@@ -30,6 +30,7 @@ const PerDay = props => {
                         </div>
                         <DatePicker id="date"
                             popperPlacement="bottom-start"
+                            autoComplete='off'
                             popperModifiers={{
                                 flip: {
                                     enabled: false
@@ -50,15 +51,16 @@ const PerDay = props => {
                 </div>
             </form>
             {
+                //console.log(props.rates, props.isPristine, props.isLoadingExchangeRate, props.isLastLoadingFail)
                 props.rates.length === 0 && !props.isPristine && !props.isLoadingExchangeRate && !props.isLastLoadingFail &&
                 <Row>
                     <Col className="text-center">
-                        <hr />
+                        {/* <hr /> */}
                         <span className="text-danger">Não existe cotações para a data escolhida</span>
                     </Col>
                 </Row>
             }
-            {
+            {/* {
                 props.isLoadingExchangeRate &&
                 <Row>
                     <Col className="text-center">
@@ -107,7 +109,7 @@ const PerDay = props => {
                         </Table>
                     </Card.Body>
                 </Card>
-            }
+            } */}
         </div>
     );
 }

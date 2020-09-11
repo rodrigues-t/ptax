@@ -6,7 +6,7 @@ import Navigation from './components/Navigation';
 //import Main from './components/Main';
 import {Switch, Route} from 'react-router-dom';
 import Intro from './components/Intro';
-import PerDay from './components/PerDay';
+import PerDay from './domain/PerDay';
 
 import { library } from '@fortawesome/fontawesome-svg-core'
 //import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
