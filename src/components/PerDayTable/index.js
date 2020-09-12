@@ -1,11 +1,20 @@
 import React from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import DatePicker from 'react-datepicker';
+
+import './../../datepicker.css';
+
 import { Card, Table } from 'react-bootstrap';
-import moment from 'moment';
-import { format } from "date-fns";
+import { format, isAfter, parse } from "date-fns";
 
 const PerDayTable = props => {
+
+    const getBrCurrencySymbol = date => {
+        return isAfter(
+                    parse(date, 'yyyy-MM-dd kk:mm:ss.SSS', new Date()), parse('30/06/1994 23:59:59.999', 'dd/MM/yyyy kk:mm:ss.SSS', new Date())
+                ) ?
+                'R$' : 
+                '';
+    }
+
     return (
         <>
             {
@@ -34,13 +43,16 @@ const PerDayTable = props => {
                                         <tr key={i}>
                                             <td className="small td-table-day-ptax">{rate.tipoBoletim}</td>
                                             <td className="text-primary td-table-day-ptax">
-                                                {moment(rate.dataHoraCotacao).isSameOrAfter(moment('01/07/1994', 'DD/MM/YYYY')) && "R$"}
+                                                {getBrCurrencySymbol(rate.dataHoraCotacao)}
                                                 {rate.cotacaoCompra}
                                             </td>
                                             <td className="text-success td-table-day-ptax">
-                                                {moment(rate.dataHoraCotacao).isSameOrAfter(moment('01/07/1994', 'DD/MM/YYYY')) && "R$"}{rate.cotacaoVenda}
+                                                {getBrCurrencySymbol(rate.dataHoraCotacao)}
+                                                {rate.cotacaoVenda}
                                             </td>
-                                            <td className="td-table-day-ptax">{moment(rate.dataHoraCotacao).format('HH:mm:ss')}</td>
+                                            <td className="td-table-day-ptax">
+                                                {format(parse(rate.dataHoraCotacao, 'yyyy-MM-dd kk:mm:ss.SSS', new Date()), 'kk:mm:ss')}
+                                            </td>
                                         </tr>
                                     )
                                 })}
