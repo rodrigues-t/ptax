@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 
 import useFetchCurrencies from "../../hooks/useFetchCurrencies";
 import Global from '../../GloabalVars';
@@ -9,7 +9,7 @@ import { Row, Col } from "react-bootstrap";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { format } from "date-fns";
 
-const PerDayContainer = (props) => {
+const PerDayContainer = () => {
 
     // State Hooks
     const [selectedCurrency, setSelectedCurrency] = useState("USD");
@@ -37,7 +37,7 @@ const PerDayContainer = (props) => {
     }, [currencies])
 
     // Callbak Hooks
-    const fetchExchangeRate =useCallback(async function () {
+    const fetchExchangeRate = useCallback(async function () {
         try {
             setIsLoadingExchangeRate(true);
             setIsPristine(false);
@@ -51,16 +51,16 @@ const PerDayContainer = (props) => {
                 setDisplayedDate(selectedDate);
                 setDisplayedCurrency(selectedCurrency);
             } else {
-                setIsLastLoadingFail(true)
+                setIsLastLoadingFail(true);
             }
         } catch (e) {
-            console.log(e)
+            setIsLastLoadingFail(true);
             setModalErrorShow(true);
             setModalErrorText("Não foi possível se conectar com o serviço do Banco Central. Favor tentar novamente.");
         } finally {
             setIsLoadingExchangeRate(false);
         }
-    }, [selectedDate,selectedCurrency])
+    }, [selectedDate, selectedCurrency])
 
     const quotationClickCallback = useCallback(
         e => {
@@ -77,8 +77,32 @@ const PerDayContainer = (props) => {
         [currencies, fetchExchangeRate],
     )
 
-    // Currency select element change event
-    const currencyChangeEvent = e => { setSelectedCurrency(e.target.value) }
+    // Memo Hooks
+    const getSpinner = useMemo(() => {
+        return (
+            <Row>
+                <Col className="text-center">
+                    <FontAwesomeIcon icon="spinner" size="3x" color="grey" spin />
+                </Col>
+            </Row>
+        );
+    }, []);
+
+    // Other functions
+    const currencyChangeEvent = e => {
+        setSelectedCurrency(e.target.value)
+    }
+
+    const showInlineErrorMessage = message => {
+        return (
+            <Row>
+                <Col className="text-center">
+                    <span className="text-danger">{message}</span>
+                </Col>
+            </Row>
+        )
+    }
+
     const getCurrencyOptions = () => {
         return currencies.map(currency =>
             <option key={currency.simbolo} value={currency.simbolo}>{currency.simbolo} - {currency.nomeFormatado}</option>
@@ -89,11 +113,11 @@ const PerDayContainer = (props) => {
         <div>
             {
                 currenciesLoading &&
-                <div>Carregando Moedas</div>
+                getSpinner
             }
             {
                 !currenciesLoading && currenciesError &&
-                <div>Ocorreu um erro ao carregar as moedas disponíveis</div>
+                showInlineErrorMessage('Ocorreu um erro ao carregar as moedas disponíveis.')
             }
             {
                 !currenciesLoading && !currenciesError &&
@@ -124,6 +148,10 @@ const PerDayContainer = (props) => {
                 >
                 </PerDayTable>
             }
+            {
+                rates.length === 0 && !isPristine && !isLoadingExchangeRate && !isLastLoadingFail &&
+                showInlineErrorMessage('Não existem cotações para a data escolhida.')
+            }
             <ModalError
                 bodyText={modalErrorText}
                 onHide={() => setModalErrorShow(false)}
@@ -131,29 +159,6 @@ const PerDayContainer = (props) => {
             </ModalError>
         </div>
     )
-
-    // render() {
-    //     this.sortCurrenciesByPriority();
-    //     let currencyOptions = this.state.currencies.map(currency =>
-    //         <option key={currency.simbolo} value={currency.simbolo}>{currency.simbolo} - {currency.nomeFormatado}</option>
-    //     );
-    //     let modalErrorClose = () => {this.setState({modalErrorShow: false})};
-    //     return (
-    //         <div>
-    //             <PerDay {...this.state} 
-    //                 currencyOptions={currencyOptions} 
-    //                 currencyChangeEvent={this.currencyChangeEvent}
-    //                 dateChangeEvent={date => { this.setState({ selectedDate: date }) }}
-    //                 quotationClick={this.quotationClick}>                
-    //             </PerDay>
-    //             <ModalError
-    //                 bodyText={this.state.modalErrorText}
-    //                 onHide={modalErrorClose}
-    //                 show={this.state.modalErrorShow}>
-    //             </ModalError>
-    //         </div>
-    //     );
-    // }
 }
 
 export default PerDayContainer;
