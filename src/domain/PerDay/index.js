@@ -60,39 +60,6 @@ const PerDayContainer = (props) => {
         } finally {
             setIsLoadingExchangeRate(false);
         }
-
-        // setIsLoadingExchangeRate(true);
-        // setIsPristine(false);
-        // console.log(selectedDate);
-        // fetch(Global.RequestURLs.exchangeRateDay
-        //     .replace("@CURRENCY", selectedCurrency)
-        //     .replace("@DATERATE", format(selectedDate, "MM-dd-yyyy")), {
-        //     headers: {
-        //         'Content-Type': 'application/json',
-        //         'Accept': 'application/json'
-        //     }
-        // }).then(
-        //     response => response.json(), 
-        //     error => {
-        //         setModalErrorShow(true);
-        //         setModalErrorText("Não foi possível se conectar com o serviço do Banco Central. Favor tentar novamente.");
-        //         console.log('asdasd')
-        //     }
-        // ).then(json => {
-        //         if (json) {
-        //             //this.setState({rates: json.value, isLastLoadingFail: false, displayedDate:this.state.selectedDate, displayedCurrency:this.state.selectedCurrency});                    
-        //             setRates(json.value);
-        //             setIsLastLoadingFail(false);
-        //             // setDisplayedDate(selectedDate);
-        //             // setDisplayedCurrency(selectedCurrency);
-
-        //         } else {
-        //             //this.setState({isLastLoadingFail: true});
-        //             setIsLastLoadingFail(true)
-        //         }                
-        //         //this.setState({ isLoadingExchangeRate: false });
-        //         setIsLoadingExchangeRate(false);
-        //     });
     }, [selectedDate,selectedCurrency])
 
     const quotationClickCallback = useCallback(
@@ -144,13 +111,12 @@ const PerDayContainer = (props) => {
                 isLoadingExchangeRate &&
                 <Row>
                     <Col className="text-center">
-                        <hr />
                         <FontAwesomeIcon icon="spinner" size="3x" color="grey" spin />
                     </Col>
                 </Row>
             }
             {
-                rates.length > 0 &&
+                rates.length > 0 && !isLoadingExchangeRate &&
                 <PerDayTable
                     rates={rates}
                     displayedCurrency={displayedCurrency}
