@@ -1,10 +1,9 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
 
-import useFetchCurrencies from "../../hooks/useFetchCurrencies";
-import Global from '../../GloabalVars';
-import ModalError from '../../components/Modals/ModalError';
-import PerDayForm from '../../components/PerDayForm'
-import PerDayTable from '../../components/PerDayTable'
+import useFetchCurrencies from "../shared/hooks/useFetchCurrencies";
+import Global from '../GloabalVars';
+import ModalError from '../components/Modals/ModalError';
+import { PerDayForm, PerDayTable } from '../modules/ptax/components'
 import { Row, Col } from "react-bootstrap";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { format } from "date-fns";

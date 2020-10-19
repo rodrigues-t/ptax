@@ -1,12 +1,11 @@
 import React from 'react';
 
-import './../../datepicker.css';
-
+import '../../../../assets/styles/datepicker.css';
 import 'react-datepicker/dist/react-datepicker.css';
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import DatePicker from 'react-datepicker';
 import { Form, Col, InputGroup } from 'react-bootstrap';
-
 
 const PerDayForm = props => {
     return (
