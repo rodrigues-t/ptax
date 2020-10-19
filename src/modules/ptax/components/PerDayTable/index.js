@@ -8,15 +8,7 @@ import { Card, Table } from 'react-bootstrap';
 import { format, parse } from "date-fns";
 
 const PerDayTable = props => {
-
-    // const getBrCurrencySymbol = date => {
-    //     return isAfter(
-    //                 parse(date, 'yyyy-MM-dd kk:mm:ss.SSS', new Date()), parse('30/06/1994 23:59:59.999', 'dd/MM/yyyy kk:mm:ss.SSS', new Date())
-    //             ) ?
-    //             'R$' : 
-    //             '';
-    // }
-
+    
     return (
         <>
             {
