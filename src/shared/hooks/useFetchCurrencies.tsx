@@ -1,8 +1,9 @@
 import { useState, useEffect } from "react";
-import CurrencyService from "../../modules/ptax/services/CurrencyService"
+import CurrencyService from "../../modules/ptax/services/CurrencyService";
+import Currency from "../../modules/ptax/models/Currency";
 
 const useFetchCurrencies = () => {
-    const [currencies, setCurrencies] = useState(null)
+    const [currencies, setCurrencies] = useState<Currency[]>();
     const [currenciesError, setCurrenciesError] = useState(null);
     const [currenciesLoading, setCurrenciesLoading] = useState(true); 
     
@@ -14,9 +15,11 @@ const useFetchCurrencies = () => {
                 const currencyService = new CurrencyService();
                 const res = await currencyService.getCurrencies();
                 if (!signal.aborted) {
-                    setCurrencies(res.data.value);
+                    
+                    setCurrencies(res.data.value.map((curr:any) => new Currency(curr)))
+                    //setCurrencies(res.data.value);
                 }
-            } catch (e) {console.log(e)
+            } catch (e) {
                 if (!signal.aborted) {
                     setCurrenciesError(e);
                 }

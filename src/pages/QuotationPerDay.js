@@ -23,9 +23,7 @@ const PerDayContainer = () => {
     const [modalErrorText, setModalErrorText] = useState("");
 
     // Custom Hooks
-    const { currencies, currenciesLoading, currenciesError } = useFetchCurrencies(
-        Global.RequestURLs.currencies
-    );
+    const { currencies, currenciesLoading, currenciesError } = useFetchCurrencies();
 
     // Effect Hooks
     useEffect(() => {
@@ -104,14 +102,14 @@ const PerDayContainer = () => {
 
     const getCurrencyOptions = () => {
         return currencies.map(currency =>
-            <option key={currency.simbolo} value={currency.simbolo}>{currency.simbolo} - {currency.nomeFormatado}</option>
+            <option key={currency.symbol} value={currency.symbol}>{currency.symbol} - {currency.formatedName}</option>
         );
     }
 
     return (
         <div>
             {
-                console.log(process.env.NODE_ENV)
+                console.log(currencies)
             }
             {
                 currenciesLoading &&
