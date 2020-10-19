@@ -1,5 +1,6 @@
-import React, { useState, useEffect, useCallback, useMemo } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 
+import Spinner from "../shared/components/Spinner"
 import useFetchCurrencies from "../shared/hooks/useFetchCurrencies";
 import Global from '../GloabalVars';
 import ModalError from '../components/Modals/ModalError';
@@ -73,18 +74,7 @@ const PerDayContainer = () => {
         },
         [currencies, fetchExchangeRate],
     )
-
-    // Memo Hooks
-    const getSpinner = useMemo(() => {
-        return (
-            <Row>
-                <Col className="text-center">
-                    <FontAwesomeIcon icon="spinner" size="3x" color="grey" spin />
-                </Col>
-            </Row>
-        );
-    }, []);
-
+    
     // Other functions
     const currencyChangeEvent = e => {
         setSelectedCurrency(e.target.value)
@@ -109,11 +99,7 @@ const PerDayContainer = () => {
     return (
         <div>
             {
-                console.log(currencies)
-            }
-            {
-                currenciesLoading &&
-                getSpinner
+                currenciesLoading && <Spinner />
             }
             {
                 !currenciesLoading && currenciesError &&
