@@ -111,6 +111,9 @@ const PerDayContainer = () => {
     return (
         <div>
             {
+                console.log(process.env.NODE_ENV)
+            }
+            {
                 currenciesLoading &&
                 getSpinner
             }
