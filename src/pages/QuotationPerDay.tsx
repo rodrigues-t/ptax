@@ -6,9 +6,10 @@ import Global from '../GloabalVars';
 import ModalError from '../components/Modals/ModalError';
 import { PerDayForm, PerDayTable } from '../modules/ptax/components'
 import RateService from "../modules/ptax/services/RateService";
+import Rate from "../modules/ptax/models/Rate";
 import { Row, Col } from "react-bootstrap";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { format } from "date-fns";
+
 
 const PerDayContainer = () => {
 
@@ -17,7 +18,7 @@ const PerDayContainer = () => {
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [displayedCurrency, setDisplayedCurrency] = useState("USD");
     const [displayedDate, setDisplayedDate] = useState(new Date());
-    const [rates, setRates] = useState([]);
+    const [rates, setRates] = useState<Rate[]>([]);
     const [isPristine, setIsPristine] = useState(true)
     const [isLoadingExchangeRate, setIsLoadingExchangeRate] = useState(false);
     const [isLastLoadingFail, setIsLastLoadingFail] = useState(false);
@@ -31,31 +32,20 @@ const PerDayContainer = () => {
     useEffect(() => {
         if (currencies) {
             currencies.sort((a, b) =>
-                Global.getCurrencyPriority(a.simbolo) - Global.getCurrencyPriority(b.simbolo))
+                Global.getCurrencyPriority(a.symbol) - Global.getCurrencyPriority(b.symbol))
         }
     }, [currencies])
 
     // Callbak Hooks
     const fetchExchangeRate = useCallback(async function () {
         try {
-        const resss = await new RateService().getRatePerDay({
-                '@moeda': `'${selectedCurrency}'`,
-                '@dataCotacao': `'${format(selectedDate, "MM-dd-yyyy")}'`,
-            }); console.log(resss)
             setIsLoadingExchangeRate(true);
             setIsPristine(false);
-            const res = await fetch(Global.RequestURLs.exchangeRateDay
-                .replace("@CURRENCY", selectedCurrency)
-                .replace("@DATERATE", format(selectedDate, "MM-dd-yyyy")));
-            const json = await res.json();
-            if (json) {
-                setRates(json.value);
-                setIsLastLoadingFail(false);
-                setDisplayedDate(selectedDate);
-                setDisplayedCurrency(selectedCurrency);
-            } else {
-                setIsLastLoadingFail(true);
-            }
+            const response: Rate[] = await new RateService().getRatePerDay(selectedCurrency, selectedDate);
+            setRates(response);
+            setIsLastLoadingFail(false);
+            setDisplayedDate(selectedDate);
+            setDisplayedCurrency(selectedCurrency);
         } catch (e) {
             setIsLastLoadingFail(true);
             setModalErrorShow(true);
@@ -81,11 +71,11 @@ const PerDayContainer = () => {
     )
     
     // Other functions
-    const currencyChangeEvent = e => {
+    const currencyChangeEvent = (e: any) => {
         setSelectedCurrency(e.target.value)
     }
 
-    const showInlineErrorMessage = message => {
+    const showInlineErrorMessage = (message: string) => {
         return (
             <Row>
                 <Col className="text-center">
@@ -111,7 +101,7 @@ const PerDayContainer = () => {
                     selectedDate={selectedDate}
                     currencies={currencies}
                     currencyChangeEvent={currencyChangeEvent}
-                    dateChangeEvent={date => { setSelectedDate(date) }}
+                    dateChangeEvent={(date: any) => { setSelectedDate(date) }}
                     quotationClick={quotationClickCallback}
                 >
                 </PerDayForm>

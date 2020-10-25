@@ -35,17 +35,17 @@ const PerDayTable = props => {
                                 {props.rates.map((rate, i) => {
                                     return (
                                         <tr key={i}>
-                                            <td className="small td-table-day-ptax">{rate.tipoBoletim}</td>
+                                            <td className="small td-table-day-ptax">{rate.bulletin}</td>
                                             <td className="text-primary td-table-day-ptax">
-                                                {getBrCurrencySymbol(rate.dataHoraCotacao)}
-                                                {rate.cotacaoCompra}
+                                                {getBrCurrencySymbol(rate.date)}
+                                                {rate.buy}
                                             </td>
                                             <td className="text-success td-table-day-ptax">
-                                                {getBrCurrencySymbol(rate.dataHoraCotacao)}
-                                                {rate.cotacaoVenda}
+                                                {getBrCurrencySymbol(rate.date)}
+                                                {rate.sell}
                                             </td>
                                             <td className="td-table-day-ptax">
-                                                {format(parse(rate.dataHoraCotacao, 'yyyy-MM-dd kk:mm:ss.SSS', new Date()), 'kk:mm:ss')}
+                                                {format(parse(rate.date, 'yyyy-MM-dd kk:mm:ss.SSS', new Date()), 'kk:mm:ss')}
                                             </td>
                                         </tr>
                                     )
