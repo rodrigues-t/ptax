@@ -8,6 +8,7 @@ import DatePicker from 'react-datepicker';
 import { Form, Col, InputGroup } from 'react-bootstrap';
 
 const PerDayForm = props => {
+    const {currencies} = props;
     return (
         <Form>
             <Form.Row>
@@ -25,7 +26,11 @@ const PerDayForm = props => {
                             value={props.selectedCurrency} 
                             onChange={props.currencyChangeEvent}
                         >
-                            {props.currencyOptions}
+                            {
+                                currencies.map(currency => 
+                                    <option key={currency.symbol} value={currency.symbol}>{currency.symbol} - {currency.formatedName}</option>
+                                )
+                            }
                         </Form.Control>
                     </InputGroup>
                 </Form.Group>

@@ -89,13 +89,7 @@ const PerDayContainer = () => {
             </Row>
         )
     }
-
-    const getCurrencyOptions = () => {
-        return currencies.map(currency =>
-            <option key={currency.symbol} value={currency.symbol}>{currency.symbol} - {currency.formatedName}</option>
-        );
-    }
-
+    
     return (
         <div>
             {
@@ -110,7 +104,7 @@ const PerDayContainer = () => {
                 <PerDayForm
                     selectedCurrency={selectedCurrency}
                     selectedDate={selectedDate}
-                    currencyOptions={getCurrencyOptions()}
+                    currencies={currencies}
                     currencyChangeEvent={currencyChangeEvent}
                     dateChangeEvent={date => { setSelectedDate(date) }}
                     quotationClick={quotationClickCallback}
