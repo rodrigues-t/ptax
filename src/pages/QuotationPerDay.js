@@ -5,6 +5,7 @@ import useFetchCurrencies from "../shared/hooks/useFetchCurrencies";
 import Global from '../GloabalVars';
 import ModalError from '../components/Modals/ModalError';
 import { PerDayForm, PerDayTable } from '../modules/ptax/components'
+import RateService from "../modules/ptax/services/RateService";
 import { Row, Col } from "react-bootstrap";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { format } from "date-fns";
@@ -37,6 +38,10 @@ const PerDayContainer = () => {
     // Callbak Hooks
     const fetchExchangeRate = useCallback(async function () {
         try {
+        const resss = await new RateService().getRatePerDay({
+                '@moeda': `'${selectedCurrency}'`,
+                '@dataCotacao': `'${format(selectedDate, "MM-dd-yyyy")}'`,
+            }); console.log(resss)
             setIsLoadingExchangeRate(true);
             setIsPristine(false);
             const res = await fetch(Global.RequestURLs.exchangeRateDay
