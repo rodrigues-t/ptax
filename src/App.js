@@ -5,7 +5,7 @@ import Navigation from './components/Navigation';
 import {Switch, Route} from 'react-router-dom';
 
 import Home from './pages/Home';
-import QuotationPerDay from './pages/QuotationPerDay';
+import RatePerDay from './pages/RatePerDay';
 
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faCoins, faCalendarAlt, faSpinner, faArrowRight } from '@fortawesome/free-solid-svg-icons'
@@ -21,7 +21,7 @@ class App extends Component {
         <Container fluid className="mt-2">
           <Switch>
             <Route exact path="/" component={Home} />
-            <Route exact path="/dia" component={QuotationPerDay} />
+            <Route exact path="/dia" component={RatePerDay} />
           </Switch>
         </Container>
       </>

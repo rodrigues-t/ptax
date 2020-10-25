@@ -3,15 +3,17 @@ import React, { useState, useEffect, useCallback } from 'react';
 import Spinner from "../shared/components/Spinner"
 import useFetchCurrencies from "../shared/hooks/useFetchCurrencies";
 import Global from '../GloabalVars';
-import ModalError from '../components/Modals/ModalError';
+import ModalError from '../shared/components/ModalError';
 import { PerDayForm, PerDayTable } from '../modules/ptax/components'
 import RateService from "../modules/ptax/services/RateService";
 import Rate from "../modules/ptax/models/Rate";
+import Error from "../shared/models/Error"
+
 import { Row, Col } from "react-bootstrap";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 
-const PerDayContainer = () => {
+const RatePerDayContainer = () => {
 
     // State Hooks
     const [selectedCurrency, setSelectedCurrency] = useState("USD");
@@ -19,11 +21,10 @@ const PerDayContainer = () => {
     const [displayedCurrency, setDisplayedCurrency] = useState("USD");
     const [displayedDate, setDisplayedDate] = useState(new Date());
     const [rates, setRates] = useState<Rate[]>([]);
-    const [isPristine, setIsPristine] = useState(true)
-    const [isLoadingExchangeRate, setIsLoadingExchangeRate] = useState(false);
-    const [isLastLoadingFail, setIsLastLoadingFail] = useState(false);
-    const [modalErrorShow, setModalErrorShow] = useState(false);
-    const [modalErrorText, setModalErrorText] = useState("");
+    const [isPristine, setIsPristine] = useState(true); //TODO: state name needs to be reactored
+    const [isLoadingExchangeRate, setIsLoadingExchangeRate] = useState(false); //TODO: rate fetch control needs to be improved
+    const [isLastLoadingFail, setIsLastLoadingFail] = useState(false);//TODO: rate fetch control needs to be improved
+    const [error, setError] = useState<Error>({ show: false, title: "Erro", text: "" });
 
     // Custom Hooks
     const { currencies, currenciesLoading, currenciesError } = useFetchCurrencies();
@@ -48,8 +49,15 @@ const PerDayContainer = () => {
             setDisplayedCurrency(selectedCurrency);
         } catch (e) {
             setIsLastLoadingFail(true);
-            setModalErrorShow(true);
-            setModalErrorText("Não foi possível se conectar com o serviço do Banco Central. Favor tentar novamente.");
+            setError(
+                (prevError) => {
+                    return {
+                        ...prevError,
+                        show: true,
+                        text: "Não foi possível se conectar com o serviço do Banco Central. Favor tentar novamente."
+                    }
+                }
+            );
         } finally {
             setIsLoadingExchangeRate(false);
         }
@@ -60,8 +68,16 @@ const PerDayContainer = () => {
             e.preventDefault();
             if (currencies) {
                 if (currencies.length < 1) {
-                    setModalErrorText("Nenhuma moeda foi selecionada.")
-                    setModalErrorShow(true);
+                    setError(
+                        (prevError) => {
+                            return {
+                                ...prevError,
+                                show: true,
+                                text: "Nenhuma moeda foi carregada."
+                            }
+                        }
+                    );
+
                 } else {
                     fetchExchangeRate();
                 }
@@ -69,12 +85,13 @@ const PerDayContainer = () => {
         },
         [currencies, fetchExchangeRate],
     )
-    
-    // Other functions
+
+    //TODO: turn it to callback
     const currencyChangeEvent = (e: any) => {
         setSelectedCurrency(e.target.value)
     }
 
+    // Other functions
     const showInlineErrorMessage = (message: string) => {
         return (
             <Row>
@@ -84,7 +101,7 @@ const PerDayContainer = () => {
             </Row>
         )
     }
-    
+
     return (
         <div>
             {
@@ -101,7 +118,7 @@ const PerDayContainer = () => {
                     selectedDate={selectedDate}
                     currencies={currencies}
                     currencyChangeEvent={currencyChangeEvent}
-                    dateChangeEvent={(date: any) => { setSelectedDate(date) }}
+                    dateChangeEvent={(date: any) => { setSelectedDate(date) }}//TODO: Create callback
                     quotationClick={quotationClickCallback}
                 >
                 </PerDayForm>
@@ -128,12 +145,12 @@ const PerDayContainer = () => {
                 showInlineErrorMessage('Não existem cotações para a data escolhida.')
             }
             <ModalError
-                bodyText={modalErrorText}
-                onHide={() => setModalErrorShow(false)}
-                show={modalErrorShow}>
+                error={error}
+                onHide={() => setError({ ...error, show: false })}//TODO: create callback
+            >
             </ModalError>
         </div>
     )
 }
 
-export default PerDayContainer;
+export default RatePerDayContainer;

@@ -1,34 +1,36 @@
 import React from 'react';
-import {Modal,Button} from 'react-bootstrap'
+import {Modal,Button} from 'react-bootstrap';
+import Error from '../../models/Error';
 
-class ModalError extends React.Component {
-    
-    constructor(props) {
-        super(props);
-        this.state = {bodyText: this.props.bodyText};
-    }
+interface IModalError {
+    error: Error,
+    onHide: any,
+    modalParams?: any,
+}
 
+class ModalError extends React.Component<IModalError> {
     render(){
-        let {bodyText, ...rest} = this.props;
-        return (            
+        let {error, onHide, modalParams } = this.props;
+        return (
             <Modal
-                {...rest}
+                show={error.show}
+                {...modalParams}
                 size="lg"
                 aria-labelledby="contained-modal-title-vcenter"
                 centered
             >
                 <Modal.Header closeButton>
                     <Modal.Title id="contained-modal-title-vcenter">
-                        Erro
+                        {error.title}
                     </Modal.Title>                    
                 </Modal.Header>
                 <Modal.Body>
                     <span className="text-danger">
-                        {bodyText}
+                        {error.text}
                     </span>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button onClick={this.props.onHide}>Ok</Button>
+                    <Button onClick={onHide}>Ok</Button>
                 </Modal.Footer>
             </Modal>
         );
