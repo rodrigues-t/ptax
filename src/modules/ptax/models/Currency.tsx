@@ -3,8 +3,8 @@
     formatedName: string;
     currencyType: string;
     
-    //Api returns data formated in portuguese.
-    // Workaround to code universal understading
+    // API returns data formatted in portuguese.
+    // Workaround to the universal understanding of code
     constructor(data: any) {
         this.symbol = data.simbolo;
         this.formatedName = data.nomeFormatado;
