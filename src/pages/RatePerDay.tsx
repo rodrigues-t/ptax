@@ -1,18 +1,17 @@
 import React, { useState, useEffect, useCallback } from 'react';
 
-import Spinner from "../shared/components/Spinner"
+import Spinner from "../shared/components/Spinner";
 import useFetchCurrencies from "../shared/hooks/useFetchCurrencies";
-import Global from '../GloabalVars';
 import ModalError from '../shared/components/ModalError';
-import { PerDayForm, PerDayTable } from '../modules/ptax/components'
+import { PerDayForm, PerDayTable } from '../modules/ptax/components';
 import RateService from "../modules/ptax/services/RateService";
 import Rate from "../modules/ptax/models/Rate";
 import Error from "../shared/models/Error";
 import LoadControl from "../shared/models/LoadControl";
+import {getCurrencyPriority} from "../shared/utils/CurrencyUtils";
 
 import { Row, Col } from "react-bootstrap";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-
 
 const RatePerDayContainer = () => {
 
@@ -33,7 +32,7 @@ const RatePerDayContainer = () => {
     useEffect(() => {
         if (currencies) {
             currencies.sort((a, b) =>
-                Global.getCurrencyPriority(a.symbol) - Global.getCurrencyPriority(b.symbol))
+                getCurrencyPriority(a.symbol) - getCurrencyPriority(b.symbol))
         }
     }, [currencies])
 
