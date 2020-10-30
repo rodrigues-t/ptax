@@ -7,7 +7,8 @@ import ModalError from '../shared/components/ModalError';
 import { PerDayForm, PerDayTable } from '../modules/ptax/components'
 import RateService from "../modules/ptax/services/RateService";
 import Rate from "../modules/ptax/models/Rate";
-import Error from "../shared/models/Error"
+import Error from "../shared/models/Error";
+import LoadControl from "../shared/models/LoadControl";
 
 import { Row, Col } from "react-bootstrap";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -21,9 +22,8 @@ const RatePerDayContainer = () => {
     const [displayedCurrency, setDisplayedCurrency] = useState("USD");
     const [displayedDate, setDisplayedDate] = useState(new Date());
     const [rates, setRates] = useState<Rate[]>([]);
-    const [isPristine, setIsPristine] = useState(true); //TODO: state name needs to be reactored
-    const [isLoadingExchangeRate, setIsLoadingExchangeRate] = useState(false); //TODO: rate fetch control needs to be improved
-    const [isLastLoadingFail, setIsLastLoadingFail] = useState(false);//TODO: rate fetch control needs to be improved
+    
+    const [rateLoadControl, setRateLoadControl] = useState<LoadControl>({ isLoading: false, hasLastLoadFailed: false, isPristine: true });
     const [error, setError] = useState<Error>({ show: false, title: "Erro", text: "" });
 
     // Custom Hooks
@@ -40,17 +40,16 @@ const RatePerDayContainer = () => {
     // Callbak Hooks
     const fetchExchangeRate = useCallback(async function () {
         try {
-            setIsLoadingExchangeRate(true);
-            setIsPristine(false);
+            setRateLoadControl(prev => { return { ...prev, isLoading: true, isPristine: false } });
             const response: Rate[] = await new RateService().getRatePerDay(selectedCurrency, selectedDate);
             setRates(response);
-            setIsLastLoadingFail(false);
+            setRateLoadControl(prev => { return { ...prev, hasLastLoadFailed: false } });
             setDisplayedDate(selectedDate);
             setDisplayedCurrency(selectedCurrency);
         } catch (e) {
-            setIsLastLoadingFail(true);
+            setRateLoadControl((prev) => { return { ...prev, hasLastLoadFailed: true } });
             setError(
-                (prevError) => {
+                prevError => {
                     return {
                         ...prevError,
                         show: true,
@@ -59,17 +58,17 @@ const RatePerDayContainer = () => {
                 }
             );
         } finally {
-            setIsLoadingExchangeRate(false);
+            setRateLoadControl(prev => { return { ...prev, isLoading: false } });
         }
     }, [selectedDate, selectedCurrency])
 
-    const quotationClickCallback = useCallback(
+    const rateClickCallback = useCallback(
         e => {
             e.preventDefault();
             if (currencies) {
                 if (currencies.length < 1) {
                     setError(
-                        (prevError) => {
+                        prevError => {
                             return {
                                 ...prevError,
                                 show: true,
@@ -85,11 +84,21 @@ const RatePerDayContainer = () => {
         },
         [currencies, fetchExchangeRate],
     )
+    
+    const currencyChangeEventCallback = useCallback(
+        e =>setSelectedCurrency(e.target.value),
+        [setSelectedCurrency]
+    );
 
-    //TODO: turn it to callback
-    const currencyChangeEvent = (e: any) => {
-        setSelectedCurrency(e.target.value)
-    }
+    const dateChangeEventCallback = useCallback(
+        date => setSelectedDate(date),
+        [setSelectedDate]
+    );
+    
+    const hideModalErrorCallback = useCallback(
+        e => setError( prev => { return { ...prev, show: false } } ),
+        [setError]
+    )
 
     // Other functions
     const showInlineErrorMessage = (message: string) => {
@@ -117,14 +126,14 @@ const RatePerDayContainer = () => {
                     selectedCurrency={selectedCurrency}
                     selectedDate={selectedDate}
                     currencies={currencies}
-                    currencyChangeEvent={currencyChangeEvent}
-                    dateChangeEvent={(date: any) => { setSelectedDate(date) }}//TODO: Create callback
-                    quotationClick={quotationClickCallback}
+                    currencyChangeEvent={currencyChangeEventCallback}
+                    dateChangeEvent={dateChangeEventCallback}
+                    quotationClick={rateClickCallback}
                 >
                 </PerDayForm>
             }
             {
-                isLoadingExchangeRate &&
+                rateLoadControl.isLoading &&
                 <Row>
                     <Col className="text-center">
                         <FontAwesomeIcon icon="spinner" size="3x" color="grey" spin />
@@ -132,7 +141,7 @@ const RatePerDayContainer = () => {
                 </Row>
             }
             {
-                rates.length > 0 && !isLoadingExchangeRate &&
+                rates.length > 0 && !rateLoadControl.isLoading &&
                 <PerDayTable
                     rates={rates}
                     displayedCurrency={displayedCurrency}
@@ -141,12 +150,12 @@ const RatePerDayContainer = () => {
                 </PerDayTable>
             }
             {
-                rates.length === 0 && !isPristine && !isLoadingExchangeRate && !isLastLoadingFail &&
+                rates.length === 0 && !rateLoadControl.isPristine && !rateLoadControl.isLoading && !rateLoadControl.hasLastLoadFailed &&
                 showInlineErrorMessage('Não existem cotações para a data escolhida.')
             }
             <ModalError
                 error={error}
-                onHide={() => setError({ ...error, show: false })}//TODO: create callback
+                onHide={hideModalErrorCallback}
             >
             </ModalError>
         </div>
