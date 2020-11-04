@@ -128,8 +128,8 @@ const RatePerDayContainer = () => {
                     currencyChangeEvent={currencyChangeEventCallback}
                     dateChangeEvent={dateChangeEventCallback}
                     quotationClick={rateClickCallback}
-                >
-                </PerDayForm>
+                />
+                
             }
             {
                 rateLoadControl.isLoading &&

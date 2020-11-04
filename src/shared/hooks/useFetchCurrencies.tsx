@@ -3,7 +3,7 @@ import CurrencyService from "../../modules/ptax/services/CurrencyService";
 import Currency, {Moeda, parseDataToCurrency} from "../../modules/ptax/models/Currency";
 
 const useFetchCurrencies = () => {
-    const [currencies, setCurrencies] = useState<Currency[]>();
+    const [currencies, setCurrencies] = useState<Currency[]>([]);
     const [currenciesError, setCurrenciesError] = useState(null);
     const [currenciesLoading, setCurrenciesLoading] = useState(true); 
     

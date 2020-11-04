@@ -2,12 +2,22 @@ import React from 'react';
 
 import '../../../../assets/styles/datepicker.css';
 import 'react-datepicker/dist/react-datepicker.css';
+import Currency from '../../models/Currency';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import DatePicker from 'react-datepicker';
 import { Form, Col, InputGroup } from 'react-bootstrap';
 
-const PerDayForm = props => {
+interface IPerDayForm {
+    currencies: Currency[],
+    selectedCurrency: string,
+    selectedDate: Date,
+    dateChangeEvent: any,
+    currencyChangeEvent: any,
+    quotationClick: any,
+}
+
+const PerDayForm = (props: IPerDayForm) => {
     const {currencies} = props;
     return (
         <Form>
@@ -15,9 +25,9 @@ const PerDayForm = props => {
                 <Form.Group as={Col} sm={6}>
                     <InputGroup>
                         <div className="input-group-prepend">
-                            <span className="input-group-text" htmlFor="selectCurrencies">
+                            <label className="input-group-text" htmlFor="selectCurrencies">
                                 <FontAwesomeIcon icon="coins" />
-                            </span>
+                            </label>
                         </div>
                         <Form.Control 
                             id="selectCurrencies" 
@@ -36,9 +46,9 @@ const PerDayForm = props => {
                 </Form.Group>
                 <div id="groupDate" className="input-group form-group col-sm-4">
                     <div className="input-group-prepend">
-                        <span className="input-group-text" htmlFor="date">
+                        <label className="input-group-text" htmlFor="date">
                             <FontAwesomeIcon icon="calendar-alt" />
-                        </span>
+                        </label>
                     </div>
                     <DatePicker id="date"
                         popperPlacement="bottom-start"
