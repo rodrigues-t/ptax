@@ -1,4 +1,4 @@
-// Standard Model
+// Project standard Model
 export default interface Currency {
     symbol: string;
     formatedName: string;

@@ -1,5 +1,5 @@
 import { Api } from "../../../shared/services/Api";
-import Rate from "../models/Rate";
+import Rate, {Cotacao, parseDataToRate} from "../models/Rate";
 import format from "date-fns/format";
 
 export default class RateService extends Api {
@@ -14,7 +14,7 @@ export default class RateService extends Api {
                         $top: 100,
                         $format: 'json'
                     });
-                resolve(response.data.value.map((rate:any) => new Rate(rate)));
+                resolve(response.data.value.map((rate:Cotacao) => parseDataToRate(rate)));
             } catch(e) {
                 reject(e);
             }
