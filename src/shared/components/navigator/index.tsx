@@ -2,20 +2,6 @@ import React from 'react';
 import { Navbar, Nav } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 
-// const NavItem = props => {
-//     const pageURI = window.location.pathname+window.location.search    
-//     const liClassName = (props.path === pageURI) ? "nav-item active" : "nav-item";
-//     const aClassName = (props.disabled === true) ? "nav-link disabled" : "nav-link"
-//     return(
-//         <li className={liClassName}>
-//             <a className={aClassName} href={props.path}>
-//                 {props.name}
-//             </a>
-//             {(props.path === pageURI) ? (<span className="sr-only">(current)</span>) : ''}
-//         </li>
-//     );
-// }
-
 class Navigation extends React.Component {
     render() {
         return (
@@ -39,10 +25,6 @@ class Navigation extends React.Component {
                         <LinkContainer exact to="/info">
                             <Nav.Link>Informações</Nav.Link>
                         </LinkContainer>
-                        {/* <NavItem name="Cotação por dia" path="/dia" />
-                        <NavItem name="Cotação por período" path="/periodo" />
-                        <NavItem name="Moedas" path="/moedas" />
-                        <NavItem name="Informações" path="/info" />                         */}
                     </Nav>
                 </Navbar.Collapse>
             </Navbar>

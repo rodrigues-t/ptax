@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 import'../node_modules/bootstrap/dist/css/bootstrap.min.css';
-import Navigation from './components/Navigation';
+import Navigator from './shared/components/navigator';
 import {Switch, Route} from 'react-router-dom';
 
 import Home from './pages/Home';
@@ -17,7 +17,7 @@ class App extends Component {
   render() {
     return (
       <>
-        <Navigation />
+        <Navigator />
         <Container fluid className="mt-2">
           <Switch>
             <Route exact path="/" component={Home} />
