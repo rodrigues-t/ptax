@@ -5,7 +5,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import Currency from '../../models/Currency';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import DatePicker, {registerLocale} from 'react-datepicker';
+import DatePicker, { registerLocale } from 'react-datepicker';
 import { Form, Col, InputGroup } from 'react-bootstrap';
 import ptBR from 'date-fns/locale/pt-BR';
 
@@ -21,7 +21,7 @@ interface IPerDayForm {
 }
 
 const PerDayForm = (props: IPerDayForm) => {
-    const {currencies} = props;
+    const { currencies } = props;
     return (
         <Form>
             <Form.Row>
@@ -32,15 +32,15 @@ const PerDayForm = (props: IPerDayForm) => {
                                 <FontAwesomeIcon icon="coins" />
                             </label>
                         </div>
-                        <Form.Control 
-                            id="selectCurrencies" 
-                            as="select" 
+                        <Form.Control
+                            id="selectCurrencies"
+                            as="select"
                             custom
-                            value={props.selectedCurrency} 
+                            value={props.selectedCurrency}
                             onChange={props.currencyChangeEvent}
                         >
                             {
-                                currencies.map(currency => 
+                                currencies.map(currency =>
                                     <option key={currency.symbol} value={currency.symbol}>{currency.symbol} - {currency.formatedName}</option>
                                 )
                             }
@@ -53,7 +53,7 @@ const PerDayForm = (props: IPerDayForm) => {
                             <FontAwesomeIcon icon="calendar-alt" />
                         </label>
                     </div>
-                    <DatePicker 
+                    <DatePicker
                         id="date"
                         locale="pt-BR"
                         popperPlacement="bottom-start"
@@ -67,6 +67,7 @@ const PerDayForm = (props: IPerDayForm) => {
                                 escapeWithReference: false
                             }
                         }}
+                        maxDate={new Date()}
                         dateFormat="dd/MM/yyyy"
                         selected={props.selectedDate}
                         onChange={props.dateChangeEvent}
