@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 import'../node_modules/bootstrap/dist/css/bootstrap.min.css';
-import Navigator from './shared/components/Navigators';
+import Navigator from './shared/components/Navigator';
 import {Switch, Route} from 'react-router-dom';
 
 import Home from './pages/Home';
