@@ -5,8 +5,11 @@ import 'react-datepicker/dist/react-datepicker.css';
 import Currency from '../../models/Currency';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import DatePicker from 'react-datepicker';
+import DatePicker, {registerLocale} from 'react-datepicker';
 import { Form, Col, InputGroup } from 'react-bootstrap';
+import ptBR from 'date-fns/locale/pt-BR';
+
+registerLocale('pt-BR', ptBR);
 
 interface IPerDayForm {
     currencies: Currency[],
@@ -50,7 +53,9 @@ const PerDayForm = (props: IPerDayForm) => {
                             <FontAwesomeIcon icon="calendar-alt" />
                         </label>
                     </div>
-                    <DatePicker id="date"
+                    <DatePicker 
+                        id="date"
+                        locale="pt-BR"
                         popperPlacement="bottom-start"
                         autoComplete='off'
                         popperModifiers={{
