@@ -30,8 +30,7 @@ const useFetchCurrencies = () => {
         doFetch(); return () => {
             abortController.abort();
         };
-    }, []); 
-    
+    }, []);
     return { currencies, currenciesError, currenciesLoading };
 }
 
