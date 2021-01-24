@@ -1,11 +1,11 @@
 ## Description 
-This project is a web application to provide PTAX exchange rates history of several currencies by open data API of Central Bank of Brazil.  
+This project is a web application to provide PTAX exchange rates history of several currencies by the open data API of Central Bank of Brazil.  
 
 ### What is PTAX exchange rate?
 Coming soon...
 
 ### Where can I find this Open Data API?
-Here you can find all the open API's served by Central Bank of Brazil:  
+Here you can find all the open APIs served by the Central Bank of Brazil:  
 **[EN]** https://opendata.bcb.gov.br/  
 **[PT-BR]** https://dadosabertos.bcb.gov.br/  
 
