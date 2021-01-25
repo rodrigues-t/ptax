@@ -9,12 +9,12 @@ Here you can find all the open APIs served by the Central Bank of Brazil:
 **[EN]** https://opendata.bcb.gov.br/  
 **[PT-BR]** https://dadosabertos.bcb.gov.br/  
 
-To see the specific PTAX API check out the link below:
+To see the specific PTAX API check out the link below:  
 **[EN]** https://opendata.bcb.gov.br/dataset/exchange-rates-daily-bulletins  
 **[PT-BR]** https://dadosabertos.bcb.gov.br/dataset/taxas-de-cambio-todos-os-boletins-diarios
 
 ## Live Demo
-Check out the live demo [here](https://ptax-br.web.app/).  
+Check out the demo website clicking [here](https://ptax-br.web.app/).  
 **PS:** Only in portguese so far.
 
 ## Getting Started
