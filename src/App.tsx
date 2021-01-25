@@ -18,7 +18,7 @@ class App extends Component {
     return (
       <>
         <Navigator />
-        <Container fluid className="mt-2">
+        <Container className="mt-2">
           <Switch>
             <Route exact path="/" component={Home} />
             <Route exact path="/dia" component={RatePerDay} />
