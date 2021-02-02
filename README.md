@@ -37,4 +37,12 @@ $ npm install
 $ npm start
 ```
 
+## Built with
+
+- React
+- Typescript
+- Jest
+- Enzyme
+- CSS and React-Bootstrap 
+- DDD concepts
 
