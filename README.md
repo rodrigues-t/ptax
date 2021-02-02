@@ -2,7 +2,7 @@
 This project is a web application to provide PTAX exchange rates history of several currencies by the open data API of Central Bank of Brazil.  
 
 ### What is PTAX exchange rate?
-Coming soon...
+PTAX is an exchange rate calculated by the Central Bank of Brazil during one day. Every day with negotiation the Central Bank makes four consults of the rates of buy and sell that a currency is being negotiated based on Brazilian Real. PTAX is used, as well, by Brazilian financial institutions to calculates the value, in Brazilian Real (R$), to charge their clients relative to expenses in other currencies.
 
 ### Where can I find this Open Data API?
 Here you can find all the open APIs served by the Central Bank of Brazil:  
