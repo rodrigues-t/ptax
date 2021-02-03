@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const Spinner = () => {
     return (
-        <Row>
+        <Row id="spinner-component">
             <Col className="text-center">
                 <FontAwesomeIcon icon="spinner" size="3x" color="grey" spin />
             </Col>

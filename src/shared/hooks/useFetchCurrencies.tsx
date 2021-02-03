@@ -14,7 +14,7 @@ const useFetchCurrencies = () => {
             try {
                 const currencyService = new CurrencyService();
                 const res = await currencyService.getCurrencies();
-                if (!signal.aborted) {                    
+                if (!signal.aborted) {
                     setCurrencies(res.data.value.map((curr:Moeda) => parseDataToCurrency(curr)));
                 }
             } catch (e) {
