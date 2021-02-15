@@ -1,6 +1,7 @@
 import React from 'react';
-import { Navbar, Nav } from 'react-bootstrap';
+import { Navbar, Nav, NavDropdown } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
+import './index.css'
 
 class Navigation extends React.Component {
     render() {
@@ -13,17 +14,16 @@ class Navigation extends React.Component {
                         <LinkContainer exact to="/">
                             <Nav.Link>Início</Nav.Link>
                         </LinkContainer>
-                        <LinkContainer exact to="/dia">
-                            <Nav.Link>Cotação por dia</Nav.Link>
-                        </LinkContainer>
-                        <LinkContainer exact to="/periodo">
-                            <Nav.Link>Cotação por período</Nav.Link>
-                        </LinkContainer>
-                        <LinkContainer exact to="/moedas">
-                            <Nav.Link>Moeda</Nav.Link>
-                        </LinkContainer>
-                        <LinkContainer exact to="/info">
-                            <Nav.Link>Informações</Nav.Link>
+                        <NavDropdown title="Cotação" id="exchange-rate-dd">
+                            <LinkContainer exact to="/dia" activeClassName="active">
+                                <NavDropdown.Item >por dia</NavDropdown.Item>
+                            </LinkContainer>
+                            <LinkContainer exact to="/periodo" activeClassName="active">
+                                <NavDropdown.Item >por período</NavDropdown.Item>
+                            </LinkContainer>
+                        </NavDropdown>
+                        <LinkContainer exact to="/sobre">
+                            <Nav.Link disabled>Sobre</Nav.Link>
                         </LinkContainer>
                     </Nav>
                 </Navbar.Collapse>
