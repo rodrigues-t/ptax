@@ -1,4 +1,5 @@
-import { isAfter, parse } from "date-fns";
+import { parse } from "date-fns";
+import { getCurrencyByDate } from "brazil-currencies";
 
 const currencyPriorities = new Map(
     [
@@ -12,13 +13,7 @@ const getCurrencyPriority = key => {
     return p !== undefined ? p : 100;
 }
 
-const getBrCurrencySymbol = date => {
-    return isAfter(
-        parse(date, 'yyyy-MM-dd kk:mm:ss.SSS', new Date()), parse('30/06/1994 23:59:59.999', 'dd/MM/yyyy kk:mm:ss.SSS', new Date())
-    ) ?
-        'R$' :
-        '';
-}
+const getBrCurrencySymbol = date => getCurrencyByDate(parse(date, 'yyyy-MM-dd kk:mm:ss.SSS', new Date()))?.symbol;
 
 export {
     currencyPriorities,
