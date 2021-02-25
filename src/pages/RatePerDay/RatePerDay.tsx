@@ -1,14 +1,14 @@
 import React, { useState, useEffect, useCallback } from 'react';
 
-import Spinner from "../shared/components/Spinner";
-import useFetchCurrencies from "../shared/hooks/useFetchCurrencies";
-import ModalError from '../shared/components/ModalError';
-import { PerDayForm, PerDayTable } from '../modules/ptax/components';
-import RateService from "../modules/ptax/services/RateService";
-import Rate from "../modules/ptax/models/Rate";
-import Error from "../shared/models/Error";
-import LoadControl from "../shared/models/LoadControl";
-import {getCurrencyPriority} from "../shared/utils/CurrencyUtils";
+import Spinner from "../../shared/components/Spinner";
+import useFetchCurrencies from "../../shared/hooks/useFetchCurrencies";
+import ModalError from '../../shared/components/ModalError';
+import { PerDayForm, PerDayTable } from '../../modules/ptax/components';
+import RateService from "../../modules/ptax/services/RateService";
+import Rate from "../../modules/ptax/models/Rate";
+import Error from "../../shared/models/Error";
+import ILoadState from "../../shared/models/ILoadState";
+import {getCurrencyPriority} from "../../shared/utils/CurrencyUtils";
 
 import { Row, Col } from "react-bootstrap";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -22,7 +22,7 @@ const RatePerDayContainer = () => {
     const [displayedDate, setDisplayedDate] = useState(new Date());
     const [rates, setRates] = useState<Rate[]>([]);
     
-    const [rateLoadControl, setRateLoadControl] = useState<LoadControl>({ isLoading: false, hasLastLoadFailed: false, isPristine: true });
+    const [rateLoadControl, setRateLoadControl] = useState<ILoadState>({ isLoading: false, hasLastLoadFailed: false, isPristine: true });
     const [error, setError] = useState<Error>({ show: false, title: "Erro", text: "" });
 
     // Custom Hooks
@@ -129,7 +129,6 @@ const RatePerDayContainer = () => {
                     dateChangeEvent={dateChangeEventCallback}
                     quotationClick={rateClickCallback}
                 />
-                
             }
             {
                 rateLoadControl.isLoading &&
