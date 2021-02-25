@@ -1,14 +1,14 @@
-div#groupDate .react-datepicker-wrapper .react-datepicker__input-container input {
+div.groupDate .react-datepicker-wrapper .react-datepicker__input-container input {
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;    
 }
-div#groupDate > div:nth-child(2n)  {    
+div.groupDate > div:nth-child(2n)  {    
     position: relative;
     flex: 1 1 auto;   
     width: 1%; 
 }
 
-div#groupDate div:nth-child(2) .react-datepicker-wrapper {    
+div.groupDate div:nth-child(2) .react-datepicker-wrapper {    
     width: 100%
 }                                                        
 .react-datepicker__input-container{

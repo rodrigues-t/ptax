@@ -25,7 +25,7 @@ const PerDayForm = (props: IPerDayForm) => {
     return (
         <Form>
             <Form.Row>
-                <Form.Group as={Col} sm={6}>
+                <Form.Group as={Col} sm={5}>
                     <InputGroup>
                         <div className="input-group-prepend">
                             <label className="input-group-text" htmlFor="selectCurrencies">
@@ -47,7 +47,7 @@ const PerDayForm = (props: IPerDayForm) => {
                         </Form.Control>
                     </InputGroup>
                 </Form.Group>
-                <div id="groupDate" className="input-group form-group col-sm-4">
+                <div id="groupDate" className="groupDate input-group form-group col-sm-5">
                     <div className="input-group-prepend">
                         <label className="input-group-text" htmlFor="date">
                             <FontAwesomeIcon icon="calendar-alt" />
