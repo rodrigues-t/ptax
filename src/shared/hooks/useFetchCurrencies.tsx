@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import CurrencyService from "../../modules/ptax/services/CurrencyService";
 import Currency, {Moeda, parseDataToCurrency} from "../../modules/ptax/models/Currency";
+import { getCurrencyPriority } from "../utils/CurrencyUtils";
 
 const useFetchCurrencies = () => {
     const [currencies, setCurrencies] = useState<Currency[]>([]);
@@ -15,7 +16,9 @@ const useFetchCurrencies = () => {
                 const currencyService = new CurrencyService();
                 const res = await currencyService.getCurrencies();
                 if (!signal.aborted) {
-                    setCurrencies(res.data.value.map((curr:Moeda) => parseDataToCurrency(curr)));
+                    let curr: Currency[] = res.data.value.map((curr:Moeda) => parseDataToCurrency(curr))
+                    curr.sort((a, b) => getCurrencyPriority(a.symbol) - getCurrencyPriority(b.symbol));
+                    setCurrencies(curr);
                 }
             } catch (e) {
                 if (!signal.aborted) {

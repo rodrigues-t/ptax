@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useCallback } from 'react';
 
 import Spinner from "../../shared/components/Spinner";
 import useFetchCurrencies from "../../shared/hooks/useFetchCurrencies";
@@ -8,7 +8,6 @@ import RateService from "../../modules/ptax/services/RateService";
 import Rate from "../../modules/ptax/models/Rate";
 import Error from "../../shared/models/Error";
 import ILoadState from "../../shared/models/ILoadState";
-import {getCurrencyPriority} from "../../shared/utils/CurrencyUtils";
 
 import { Row, Col } from "react-bootstrap";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -27,15 +26,7 @@ const RatePerDayContainer = () => {
 
     // Custom Hooks
     const { currencies, currenciesLoading, currenciesError } = useFetchCurrencies();
-
-    // Effect Hooks
-    useEffect(() => {
-        if (currencies) {
-            currencies.sort((a, b) =>
-                getCurrencyPriority(a.symbol) - getCurrencyPriority(b.symbol))
-        }
-    }, [currencies])
-
+    
     // Callbak Hooks
     const fetchExchangeRate = useCallback(async function () {
         try {
