@@ -1,5 +1,5 @@
 module.exports = {
-  extends: ["react-app", "airbnb", "airbnb/hooks"],  
+  extends: ["react-app"],  
   overrides: [
     {
       files: ["**/*.ts?(x)", "**/*.js?(x)"],
@@ -16,10 +16,6 @@ module.exports = {
         "indent": ["error", 2],
         "max-len": ["warn", { "code": 120 }],
         "import/extensions": "off",
-        // "react/jsx-filename-enpm xtension": [
-        //   2,
-        //   { extensions: [".js", ".jsx", ".ts", ".tsx"] },
-        // ],
         "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx", ".ts", ".tsx"] }],
         "arrow-parens": ["error", "as-needed"],
         "arrow-body-style": "off",
@@ -33,7 +29,6 @@ module.exports = {
         "no-async-promise-executor": "off",
         "semi": "off",
         "@typescript-eslint/semi": "error",
-        "import/no-cycle": "off"
       },
     },
   ],
