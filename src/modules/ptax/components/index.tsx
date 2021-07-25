@@ -1,7 +1,7 @@
-import PerDayForm from "./PerDayForm";
-import PerDayTable from "./PerDayTable";
+import PerDayForm from './PerDayForm';
+import PerDayTable from './PerDayTable';
 
 export {
-    PerDayForm,
-    PerDayTable,
-}
+  PerDayForm,
+  PerDayTable,
+};
