@@ -18,7 +18,7 @@ const Navigation = () => {
               <NavDropdown.Item>por dia</NavDropdown.Item>
             </LinkContainer>
             <LinkContainer exact to="/periodo" activeClassName="active">
-              <NavDropdown.Item>por período</NavDropdown.Item>
+              <NavDropdown.Item disabled>por período</NavDropdown.Item>
             </LinkContainer>
           </NavDropdown>
           <LinkContainer exact to="/sobre">

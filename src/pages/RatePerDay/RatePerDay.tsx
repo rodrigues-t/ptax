@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 
 import { Row, Col } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -6,50 +6,31 @@ import Spinner from '../../shared/components/Spinner';
 import useFetchCurrencies from '../../shared/hooks/useFetchCurrencies';
 import ModalError from '../../shared/components/ModalError';
 import { PerDayForm, PerDayTable } from '../../modules/ptax/components';
-import RateService from '../../modules/ptax/services/RateService';
-import Rate from '../../modules/ptax/models/Rate';
 import Error from '../../shared/models/Error';
-import ILoadState from '../../shared/models/ILoadState';
+import { useGetExchangeRate } from '../../modules/ptax/hooks/api/useGetExchangeRate';
 
 const RatePerDayContainer = () => {
-  // State Hooks
+  // States
   const [selectedCurrency, setSelectedCurrency] = useState('USD');
   const [selectedDate, setSelectedDate] = useState(new Date());
-  const [displayedCurrency, setDisplayedCurrency] = useState('USD');
-  const [displayedDate, setDisplayedDate] = useState(new Date());
-  const [rates, setRates] = useState<Rate[]>([]);
-
-  const [rateLoadControl, setRateLoadControl] = useState<ILoadState>({
-    isLoading: false, hasLastLoadFailed: false, isPristine: true,
-  });
   const [error, setError] = useState<Error>({ show: false, title: 'Erro', text: '' });
-
-  // Custom Hooks
+  
+  // Custom hooks
   const { currencies, currenciesLoading, currenciesError } = useFetchCurrencies();
-
-  // Callbak Hooks
-  const fetchExchangeRate = useCallback(async () => {
-    try {
-      setRateLoadControl(prev => ({ ...prev, isLoading: true, isPristine: false }));
-      const response: Rate[] = await new RateService().getRatePerDay(selectedCurrency, selectedDate);
-      setRates(response);
-      setRateLoadControl(prev => ({ ...prev, hasLastLoadFailed: false }));
-      setDisplayedDate(selectedDate);
-      setDisplayedCurrency(selectedCurrency);
-    } catch (e) {
-      setRateLoadControl(prev => ({ ...prev, hasLastLoadFailed: true }));
-      setError(
-        prevError => ({
-          ...prevError,
-          show: true,
-          text: 'Não foi possível se conectar com o serviço do Banco Central. Favor tentar novamente.',
-        }),
-      );
-    } finally {
-      setRateLoadControl(prev => ({ ...prev, isLoading: false }));
+  const { getExchangeRate, exchangeRateLoadStatus, exchangeRateResult } = useGetExchangeRate();
+  
+  // effects
+  useEffect(() => {
+    if(exchangeRateLoadStatus.hasLastLoadFailed) {
+      setError(prevError => ({
+        ...prevError,
+        show: true,
+        text: 'Não foi possível se conectar com o serviço do Banco Central. Favor tentar novamente.',
+      }));
     }
-  }, [selectedDate, selectedCurrency]);
+  }, [exchangeRateLoadStatus]);
 
+  // Callbak hooks
   const rateClickCallback = useCallback(
     e => {
       e.preventDefault();
@@ -61,11 +42,11 @@ const RatePerDayContainer = () => {
             text: 'Nenhuma moeda foi carregada.',
           }));
         } else {
-          fetchExchangeRate();
+          getExchangeRate(selectedCurrency, selectedDate);
         }
       }
     },
-    [currencies, fetchExchangeRate],
+    [currencies, getExchangeRate, selectedDate, selectedCurrency],
   );
 
   const currencyChangeEventCallback = useCallback(
@@ -84,6 +65,17 @@ const RatePerDayContainer = () => {
   );
 
   // Other functions
+  const hasCurrenciesLoadFailed = () => !currenciesLoading && currenciesError;
+  const hasCurrenciesLoadSucceed = () => !currenciesLoading && !currenciesError;
+  const canShowTable = () => 
+    exchangeRateResult && exchangeRateResult.rates?.length > 0 && !exchangeRateLoadStatus.isLoading;
+  const showNoExchangeRateMessage = () => 
+    exchangeRateResult
+    && exchangeRateResult.rates.length === 0
+    && !exchangeRateLoadStatus.isPristine
+    && !exchangeRateLoadStatus.isLoading
+    && !exchangeRateLoadStatus.hasLastLoadFailed;
+
   const showInlineErrorMessage = (message: string) => (
     <Row>
       <Col className="text-center">
@@ -98,11 +90,11 @@ const RatePerDayContainer = () => {
         currenciesLoading && <Spinner />
       }
       {
-        !currenciesLoading && currenciesError
+        hasCurrenciesLoadFailed()
         && showInlineErrorMessage('Ocorreu um erro ao carregar as moedas disponíveis.')
       }
       {
-        !currenciesLoading && !currenciesError
+        hasCurrenciesLoadSucceed()
         && (
           <PerDayForm
             selectedCurrency={selectedCurrency}
@@ -115,7 +107,7 @@ const RatePerDayContainer = () => {
         )
       }
       {
-        rateLoadControl.isLoading
+        exchangeRateLoadStatus.isLoading
         && (
           <Row>
             <Col className="text-center">
@@ -125,20 +117,17 @@ const RatePerDayContainer = () => {
         )
       }
       {
-        rates.length > 0 && !rateLoadControl.isLoading
+        canShowTable()
         && (
           <PerDayTable
-            rates={rates}
-            displayedCurrency={displayedCurrency}
-            displayedDate={displayedDate}
+            rates={exchangeRateResult!.rates}
+            displayedCurrency={exchangeRateResult!.currency}
+            displayedDate={exchangeRateResult!.date}
           />
         )
       }
       {
-        rates.length === 0
-        && !rateLoadControl.isPristine
-        && !rateLoadControl.isLoading
-        && !rateLoadControl.hasLastLoadFailed
+        showNoExchangeRateMessage()
         && showInlineErrorMessage('Não existem cotações para a data escolhida.')
       }
       <ModalError

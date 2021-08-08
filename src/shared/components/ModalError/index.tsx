@@ -13,10 +13,10 @@ const ModalError = (props: IModalError) => {
   return (
     <Modal
       show={error.show}
-      {...modalParams}
       size="lg"
       aria-labelledby="contained-modal-title-vcenter"
       centered
+      {...modalParams}
     >
       <Modal.Header closeButton>
         <Modal.Title id="contained-modal-title-vcenter">
