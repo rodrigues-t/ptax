@@ -1,12 +1,11 @@
 import React from 'react';
-import { Card, Col, Row, Table } from 'react-bootstrap';
-import { format, parse } from 'date-fns';
+import { Col, Row } from 'react-bootstrap';
+import { format } from 'date-fns';
 import Rate from '../../models/Rate';
 import '../../../../assets/styles/datepicker.css';
-import { getBrCurrencySymbol } from '../../../../shared/utils/CurrencyUtils';
 import { BULLETIN } from '../../constants/rate';
 import { useMemo } from 'react';
-import BulletinCard from '../BulletinCard';
+import { BulletinClosingCard, BulletinDefaultCard } from '../BulletinCard';
 
 interface IPerDayTableProps {
   rates: Rate[],
@@ -21,8 +20,28 @@ const PerDayTable = (props: IPerDayTableProps) => {
   );
 
   const closing = useMemo(
-    () => props.rates.find((rate: Rate) => rate.bulletin == BULLETIN.CLOSING),
-    [props.rates]
+    () => props.rates.find((rate: Rate) => rate.bulletin === BULLETIN.CLOSING),
+    [props.rates],
+  );
+
+  const intermediate = useMemo(
+    () => {
+      const inter: Array<Rate | undefined> = props.rates.filter((rate: Rate) => 
+        rate.bulletin === BULLETIN.INTERMEDIATE);
+      while(inter.length < 3) {
+        inter.unshift(undefined);
+      }
+      
+      return inter;
+    },
+    [props.rates],
+  );
+
+  const getBulletinDefaultCard = (rate: Rate | undefined, options: unknown) => (
+    <BulletinDefaultCard
+      rate={rate}
+      options ={options}
+    />
   );
 
   return (
@@ -31,22 +50,22 @@ const PerDayTable = (props: IPerDayTableProps) => {
         props.rates.length > 0
         && (
           <Row>
-            <Col>
-              <BulletinCard
+            <Col xs={12} md={6}>
+              <BulletinClosingCard
                 rate={closing}
                 headText={headerText}
-                options={{ bg: "dark", text: "white" }}
+                options={{ bg: 'dark', text: 'white' }}
               />
             </Col>
-            <Col>
+            <Col xs={12} md={6}>
               <Row>
-                <Card>
-                  <Card.Body>
-
-                  </Card.Body>
-                </Card>
+                <Col className="per-day-table__default-section">
+                  { getBulletinDefaultCard(intermediate[0], { bg: 'light' } ) }                
+                  { getBulletinDefaultCard(intermediate[1], { bg: 'light' } ) }                
+                  { getBulletinDefaultCard(intermediate[2], { bg: 'light' } ) }                
+                  { getBulletinDefaultCard(intermediate[2], { bg: 'light' } ) }
+                </Col>
               </Row>
-              <Row></Row>
             </Col>
           </Row>
         )

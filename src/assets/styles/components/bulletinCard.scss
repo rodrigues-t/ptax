@@ -1,0 +1,10 @@
+.bulletin-card {
+    &__closing {
+        min-height: 240px;
+    }
+
+    &__default {
+        min-height: 120px;
+        max-height: 120px;
+    }
+}

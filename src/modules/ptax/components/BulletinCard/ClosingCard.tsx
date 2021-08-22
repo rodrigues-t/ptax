@@ -1,17 +1,16 @@
 import React, { useMemo } from "react";
 import { Card, Row, Col } from "react-bootstrap";
-import { BULLETIN } from "../../constants/rate";
 import Rate from "../../models/Rate";
 import { format, parse } from 'date-fns';
 import { getBrCurrencySymbol } from "../../../../shared/utils/CurrencyUtils";
 
-export interface IBulletinCardProps {
+export interface IBulletinClosingCardProps {
   rate?: Rate;
-  headText?: string;
+  headText?: string | null;
   options?: any;
 }
 
-const BulletinCard = ({ headText, rate, options }: IBulletinCardProps) => {
+const BulletinClosingCard = ({ headText, rate, options }: IBulletinClosingCardProps) => {
   const time = useMemo(
     () => rate ? format(parse(rate.date.toString(), 'yyyy-MM-dd kk:mm:ss.SSS', new Date()), 'kk:mm:ss') : '-',
     [rate]
@@ -23,7 +22,7 @@ const BulletinCard = ({ headText, rate, options }: IBulletinCardProps) => {
       {value}
     </>
   );
-
+  
   return (
     <Card {...options} className="per-day-table__card">
       {
@@ -37,8 +36,8 @@ const BulletinCard = ({ headText, rate, options }: IBulletinCardProps) => {
       }
       <Card.Body className="per-day-table__card-body">
         <Row>
-          <Col xs={5} className="per-day-table__info">
-            <div>{BULLETIN.CLOSING}</div>
+          <Col xs={12} md={5}>
+            <div>{rate?.bulletin}</div>
             <div>
               {time}
             </div>
@@ -63,4 +62,4 @@ const BulletinCard = ({ headText, rate, options }: IBulletinCardProps) => {
   );
 };
 
-export default BulletinCard;
+export default BulletinClosingCard;

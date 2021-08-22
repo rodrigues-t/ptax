@@ -1,13 +1,38 @@
 .per-day-table {
+    &__default-section {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+        gap: 1px;
+    }
+
     &__card {
-        min-height: 200px;
+        min-height: 240px;
         &-body {
             display: flex;
             align-items: center;
             & > div {
                 width: 100%;
             }
-        }        
+        }  
+
+        &-small {
+            min-height: 120px;
+            max-height: 120px;
+            &-body {
+                display: flex;
+                flex-direction: column;
+                justify-content: space-around;
+                & > div {
+                    width: 100%;
+                }
+            } 
+        }
+    }
+
+    &__info {
+        display: flex;
+        justify-content: space-around;
+        font-size: 14px;
     }
 
     &__rate {
@@ -26,6 +51,27 @@
                 & > span {
                     font-size: 16px;
                     margin-right: 2px;
+                }
+            }
+        }
+    }
+
+    &__rate-small {
+        display: flex;
+        width: 100%;
+        justify-content: space-around;
+        
+        &-price {
+            &-title {
+                font-size: 11px;
+            }
+
+            &-value {
+                font-size: 16px;
+
+                & > span {
+                    font-size: 12px;
+                    margin-right: 1px;
                 }
             }
         }
