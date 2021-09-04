@@ -2,7 +2,7 @@ import React, { useMemo } from "react";
 import { Card } from "react-bootstrap";
 import Rate from "../../models/Rate";
 import { format, parse } from 'date-fns';
-import { getBrCurrencySymbol } from "../../../../shared/utils/CurrencyUtils";
+import RatePrice from "./RatePrice";
 
 export interface IBulletinDefaultCardProps {
   rate: Rate | undefined;
@@ -15,33 +15,16 @@ const BulletinDefaultCard = ({ rate, options }: IBulletinDefaultCardProps) => {
     [rate]
   );
 
-  const getPrice = (value: Number, date: Date) => (
-    <>
-      <span>{getBrCurrencySymbol(date)}</span>
-      {value}
-    </>
-  );
-
   return (
-    <Card {...options} className="per-day-table__card-small">
-      <Card.Body className="per-day-table__card-small-body">
-        <div className="per-day-table__info">
+    <Card {...options} className="bulletin-card__default">
+      <Card.Body className="bulletin-card__default-body">
+        <div className="bulletin-card__default-body-info">
           <span>{rate?.bulletin}</span>
           <span>{time}</span>
         </div>
-        <div className="per-day-table__rate-small">
-          <div>
-            <span className="per-day-table__rate-small-price-title">Compra</span>
-            <div className="per-day-table__rate-small-price-value buy-color">
-              {rate ? getPrice(rate.buy, rate.date) : '-'}
-            </div>
-          </div>
-          <div>
-            <span className="per-day-table__rate-small-price-title">Venda</span>
-            <div className="per-day-table__rate-small-price-value sell-color">
-              {rate ? getPrice(rate.sell, rate.date) : '-'}
-            </div>
-          </div>
+        <div className="bulletin-card__default-body-rate">
+          <RatePrice type="buy" rate={rate} />
+          <RatePrice type="sell" rate={rate} />
         </div>
       </Card.Body>
     </Card>

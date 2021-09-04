@@ -2,7 +2,7 @@ import React, { useMemo } from "react";
 import { Card, Row, Col } from "react-bootstrap";
 import Rate from "../../models/Rate";
 import { format, parse } from 'date-fns';
-import { getBrCurrencySymbol } from "../../../../shared/utils/CurrencyUtils";
+import RatePrice from "./RatePrice";
 
 export interface IBulletinClosingCardProps {
   rate?: Rate;
@@ -16,45 +16,24 @@ const BulletinClosingCard = ({ headText, rate, options }: IBulletinClosingCardPr
     [rate]
   );
 
-  const getPrice = (value: Number, date: Date) => (
-    <>
-      <span>{getBrCurrencySymbol(date)}</span>
-      {value}
-    </>
+  const getHeader = (text: string) => (
+    <Card.Header>
+      <span>{text}</span>
+    </Card.Header>
   );
-  
+
   return (
-    <Card {...options} className="per-day-table__card">
-      {
-        headText
-          ? (
-            <Card.Header>
-              <span>{headText}</span>
-            </Card.Header>
-          )
-          : null
-      }
-      <Card.Body className="per-day-table__card-body">
+    <Card {...options} className="bulletin-card__closing">
+      {headText ? getHeader(headText) : null}
+      <Card.Body className="bulletin-card__closing-body">
         <Row>
           <Col xs={12} md={5}>
             <div>{rate?.bulletin}</div>
-            <div>
-              {time}
-            </div>
+            <div>{time}</div>
           </Col>
-          <Col className="per-day-table__rate">
-            <div>
-              <span className="per-day-table__rate-price-title">Compra</span>
-              <div className="per-day-table__rate-price-value buy-color">
-                { rate ? getPrice(rate.buy, rate.date) : '-' }
-              </div>
-            </div>
-            <div>
-              <span className="per-day-table__rate-price-title">Venda</span>
-              <div className="per-day-table__rate-price-value sell-color">
-                { rate ? getPrice(rate.sell, rate.date) : '-' }
-              </div>
-            </div>
+          <Col className="bulletin-card__closing-body-rate">
+            <RatePrice type="buy" rate={rate} />
+            <RatePrice type="sell" rate={rate} />
           </Col>
         </Row>
       </Card.Body>
