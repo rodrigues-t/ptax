@@ -20,11 +20,12 @@ const BulletinDefaultCard = ({ rate, options }: IBulletinDefaultCardProps) => {
       <Card.Body className="bulletin-card__default-body">
         <div className="bulletin-card__default-body-info">
           <span>{rate?.bulletin}</span>
+          <span>&bull;</span>
           <span>{time}</span>
         </div>
         <div className="bulletin-card__default-body-rate">
-          <RatePrice type="buy" rate={rate} />
-          <RatePrice type="sell" rate={rate} />
+          <RatePrice type="buy" rate={rate} fixed={2} />
+          <RatePrice type="sell" rate={rate} fixed={2} />
         </div>
       </Card.Body>
     </Card>

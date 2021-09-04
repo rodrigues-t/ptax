@@ -5,13 +5,14 @@ import Rate from "../../models/Rate";
 type IRatePriceProps = {
   type: 'buy' | 'sell',
   rate?: Rate;
+  fixed?: number;
 };
 
-const RatePrice = ({ type, rate }: IRatePriceProps) => {
+const RatePrice = ({ type, rate, fixed }: IRatePriceProps) => {
   const getPrice = (value: Number, date: Date) => (
     <>
       <span>{getBrCurrencySymbol(date)}</span>
-      {value}
+      {fixed ? value.toFixed(fixed) : value}
     </>
   );
 
@@ -22,7 +23,7 @@ const RatePrice = ({ type, rate }: IRatePriceProps) => {
       <span className="bulletin-card__closing-body-rate-type">
         {type === 'buy' ? 'Compra' : 'Venda'}
       </span>
-      <div className={`bulletin-card__closing-body-rate-value ${isBuy? 'buy-color' : 'sell-color'}`}>
+      <div className={`bulletin-card__closing-body-rate-value ${isBuy ? 'buy-color' : 'sell-color'}`}>
         {rate ? getPrice((isBuy ? rate.buy : rate.sell), rate.date) : '-'}
       </div>
     </div>
