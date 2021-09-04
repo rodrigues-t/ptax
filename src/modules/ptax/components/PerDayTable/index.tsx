@@ -24,23 +24,29 @@ const PerDayTable = (props: IPerDayTableProps) => {
     [props.rates],
   );
 
-  const intermediate = useMemo(
+  const opening = useMemo(
+    () => props.rates.find((rate: Rate) => rate.bulletin === BULLETIN.OPENING),
+    [props.rates],
+  );
+
+  const intermediates = useMemo(
     () => {
-      const inter: Array<Rate | undefined> = props.rates.filter((rate: Rate) => 
+      const inter: Array<Rate | undefined> = props.rates.filter((rate: Rate) =>
         rate.bulletin === BULLETIN.INTERMEDIATE);
-      while(inter.length < 3) {
+      while (inter.length < 3) {
         inter.unshift(undefined);
       }
-      
+
       return inter;
     },
     [props.rates],
   );
 
-  const getBulletinDefaultCard = (rate: Rate | undefined, options: unknown) => (
+  const getBulletinDefaultCard = (rate: Rate | undefined, key: string | number, options: unknown) => (
     <BulletinDefaultCard
+      key={`pddc_${key}`}
       rate={rate}
-      options ={options}
+      options={options}
     />
   );
 
@@ -60,10 +66,13 @@ const PerDayTable = (props: IPerDayTableProps) => {
             <Col xs={12} md={6}>
               <Row>
                 <Col className="per-day-table__default-section">
-                  { getBulletinDefaultCard(intermediate[0], { bg: 'light' } ) }                
-                  { getBulletinDefaultCard(intermediate[1], { bg: 'light' } ) }                
-                  { getBulletinDefaultCard(intermediate[2], { bg: 'light' } ) }                
-                  { getBulletinDefaultCard(intermediate[2], { bg: 'light' } ) }
+                  {
+                    intermediates?.map((intermediate, i) => getBulletinDefaultCard(intermediate, i, { bg: 'light' }))
+                  }
+                  {/* { getBulletinDefaultCard(intermediates[0], { bg: 'light' } ) }                
+                  { getBulletinDefaultCard(intermediates[1], { bg: 'light' } ) }                
+                  { getBulletinDefaultCard(intermediates[2], { bg: 'light' } ) }                 */}
+                  {getBulletinDefaultCard(opening, 'opening', { bg: 'light' })}
                 </Col>
               </Row>
             </Col>
