@@ -12,16 +12,15 @@ interface IPerDayTableProps {
 }
 
 const PerDayTable = (props: IPerDayTableProps) => {
-  const getHeaderText = () => `${props.displayedCurrency} - ${format(props.displayedDate, 'dd/MM/yyyy')}`;
   return (
-    <>
+    <div className="per-day-table">
       {
         props.rates.length > 0
         && (
           <Card>
             <Card.Header>
               <span>
-                {getHeaderText()}
+                {'Cotação detalhada'}
               </span>
             </Card.Header>
             <Card.Body className="p-0">
@@ -30,7 +29,9 @@ const PerDayTable = (props: IPerDayTableProps) => {
                   <tr>
                     <th>Boletim</th>
                     <th>Compra</th>
+                    <th>Paridade</th>
                     <th>Venda</th>
+                    <th>Paridade</th>
                     <th>Hora</th>
                   </tr>
                 </thead>
@@ -38,16 +39,18 @@ const PerDayTable = (props: IPerDayTableProps) => {
                   {
                     props.rates.map((rate: Rate) => (
                       <tr key={rate.date.toString()}>
-                        <td className="small td-table-day-ptax">{rate.bulletin}</td>
-                        <td className="text-primary td-table-day-ptax">
+                        <td className="small">{rate.bulletin}</td>
+                        <td className="text-primary">
                           {getBrCurrencySymbol(rate.date)}
                           {rate.buy}
                         </td>
-                        <td className="text-success td-table-day-ptax">
+                        <td>{rate.buyParity}</td>
+                        <td className="text-success">
                           {getBrCurrencySymbol(rate.date)}
                           {rate.sell}
                         </td>
-                        <td className="td-table-day-ptax">
+                        <td>{rate.sellParity}</td>
+                        <td>
                           {format(parse(rate.date.toString(), 'yyyy-MM-dd kk:mm:ss.SSS', new Date()), 'kk:mm:ss')}
                         </td>
                       </tr>
@@ -56,9 +59,10 @@ const PerDayTable = (props: IPerDayTableProps) => {
                 </tbody>
               </Table>
             </Card.Body>
-          </Card>)
+          </Card>
+        )
       }
-    </>
+    </div>
   );
 };
 

@@ -1,0 +1,16 @@
+@import "./components/perDayTable.scss";
+@import "./components/perDayResult.scss";
+@import "./components/bulletinCard.scss";
+
+@import "./pages/ratePerDay.scss";
+
+$buy-color: #4791db;
+$sell-color: #03dac5;
+
+.buy-color {
+  color: $buy-color;
+}
+
+.sell-color {
+  color: $sell-color;
+}

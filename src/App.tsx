@@ -2,6 +2,7 @@ import React from 'react';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import { Container } from 'react-bootstrap';
 import { library } from '@fortawesome/fontawesome-svg-core';
+import './assets/styles/main.scss';
 import {
   faCoins,
   faCalendarAlt,

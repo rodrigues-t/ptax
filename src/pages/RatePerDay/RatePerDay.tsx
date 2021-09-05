@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Spinner from '../../shared/components/Spinner';
 import useFetchCurrencies from '../../shared/hooks/useFetchCurrencies';
 import ModalError from '../../shared/components/ModalError';
-import { PerDayForm, PerDayTable } from '../../modules/ptax/components';
+import { PerDayForm, PerDayTable, PerDayResult } from '../../modules/ptax/components';
 import Error from '../../shared/models/Error';
 import { useGetExchangeRate } from '../../modules/ptax/hooks/api/useGetExchangeRate';
 
@@ -14,14 +14,14 @@ const RatePerDayContainer = () => {
   const [selectedCurrency, setSelectedCurrency] = useState('USD');
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [error, setError] = useState<Error>({ show: false, title: 'Erro', text: '' });
-  
+
   // Custom hooks
   const { currencies, currenciesLoading, currenciesError } = useFetchCurrencies();
   const { getExchangeRate, exchangeRateLoadStatus, exchangeRateResult } = useGetExchangeRate();
-  
+
   // effects
   useEffect(() => {
-    if(exchangeRateLoadStatus.hasLastLoadFailed) {
+    if (exchangeRateLoadStatus.hasLastLoadFailed) {
       setError(prevError => ({
         ...prevError,
         show: true,
@@ -67,9 +67,9 @@ const RatePerDayContainer = () => {
   // Other functions
   const hasCurrenciesLoadFailed = () => !currenciesLoading && currenciesError;
   const hasCurrenciesLoadSucceed = () => !currenciesLoading && !currenciesError;
-  const canShowTable = () => 
+  const canShowTable = () =>
     exchangeRateResult && exchangeRateResult.rates?.length > 0 && !exchangeRateLoadStatus.isLoading;
-  const showNoExchangeRateMessage = () => 
+  const showNoExchangeRateMessage = () =>
     exchangeRateResult
     && exchangeRateResult.rates.length === 0
     && !exchangeRateLoadStatus.isPristine
@@ -119,11 +119,18 @@ const RatePerDayContainer = () => {
       {
         canShowTable()
         && (
-          <PerDayTable
-            rates={exchangeRateResult!.rates}
-            displayedCurrency={exchangeRateResult!.currency}
-            displayedDate={exchangeRateResult!.date}
-          />
+          <div className="rate-per-day__result">
+            <PerDayResult
+              rates={exchangeRateResult!.rates}
+              displayedCurrency={exchangeRateResult!.currency}
+              displayedDate={exchangeRateResult!.date}
+            />
+            <PerDayTable
+              rates={exchangeRateResult!.rates}
+              displayedCurrency={exchangeRateResult!.currency}
+              displayedDate={exchangeRateResult!.date}
+            />
+          </div>
         )
       }
       {
