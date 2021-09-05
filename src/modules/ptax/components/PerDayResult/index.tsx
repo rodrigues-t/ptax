@@ -31,8 +31,10 @@ const PerDayResult = (props: IPerDayResultProps) => {
 
   const intermediates = useMemo(
     () => {
-      const inter: Array<Rate | undefined> = props.rates.filter((rate: Rate) =>
-        rate.bulletin === BULLETIN.INTERMEDIATE);
+      const inter: Array<Rate | undefined> = props.rates
+        .filter((rate: Rate) => rate.bulletin === BULLETIN.INTERMEDIATE)
+        .reverse();
+
       while (inter.length < 3) {
         inter.unshift(undefined);
       }
@@ -65,7 +67,7 @@ const PerDayResult = (props: IPerDayResultProps) => {
             </Col>
             <Col xs={12} md={6}>
               <Row>
-                <Col className="per-day-table__default-section">
+                <Col className="per-day-result__default-section">
                   {
                     intermediates?.map((intermediate, i) => getBulletinDefaultCard(intermediate, i, { bg: 'light' }))
                   }

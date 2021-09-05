@@ -3,7 +3,6 @@ import { Card, Table } from 'react-bootstrap';
 import { format, parse } from 'date-fns';
 import Rate from '../../models/Rate';
 import '../../../../assets/styles/datepicker.css';
-import { useMemo } from 'react';
 import { getBrCurrencySymbol } from '../../../../shared/utils/CurrencyUtils';
 
 interface IPerDayTableProps {
@@ -14,7 +13,7 @@ interface IPerDayTableProps {
 
 const PerDayTable = (props: IPerDayTableProps) => {
   return (
-    <>
+    <div className="per-day-table">
       {
         props.rates.length > 0
         && (
@@ -40,22 +39,18 @@ const PerDayTable = (props: IPerDayTableProps) => {
                   {
                     props.rates.map((rate: Rate) => (
                       <tr key={rate.date.toString()}>
-                        <td className="small td-table-day-ptax">{rate.bulletin}</td>
-                        <td className="text-primary td-table-day-ptax">
+                        <td className="small">{rate.bulletin}</td>
+                        <td className="text-primary">
                           {getBrCurrencySymbol(rate.date)}
                           {rate.buy}
                         </td>
-                        <td className="td-table-day-ptax">
-                          {rate.buyParity}
-                        </td>
-                        <td className="text-success td-table-day-ptax">
+                        <td>{rate.buyParity}</td>
+                        <td className="text-success">
                           {getBrCurrencySymbol(rate.date)}
                           {rate.sell}
                         </td>
-                        <td className="td-table-day-ptax">
-                          {rate.sellParity}
-                        </td>
-                        <td className="td-table-day-ptax">
+                        <td>{rate.sellParity}</td>
+                        <td>
                           {format(parse(rate.date.toString(), 'yyyy-MM-dd kk:mm:ss.SSS', new Date()), 'kk:mm:ss')}
                         </td>
                       </tr>
@@ -67,7 +62,7 @@ const PerDayTable = (props: IPerDayTableProps) => {
           </Card>
         )
       }
-    </>
+    </div>
   );
 };
 
