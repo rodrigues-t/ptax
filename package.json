@@ -20,7 +20,7 @@
     "bootstrap": "^4.6.0",
     "brazil-currencies": "^0.1.0",
     "date-fns": "^2.16.1",
-    "node-sass": "^4.14.1",
+    "node-sass": "^7.0.0",
     "prop-types": "^15.7.2",
     "react": "^18.0.0",
     "react-bootstrap": "^1.4.3",
