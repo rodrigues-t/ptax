@@ -5,12 +5,13 @@ import { getCurrencyPriority } from '../utils/CurrencyUtils';
 
 const useFetchCurrencies = () => {
   const [currencies, setCurrencies] = useState<Currency[]>([]);
-  const [currenciesError, setCurrenciesError] = useState(null);
+  const [currenciesError, setCurrenciesError] = useState<Error | null>(null);
   const [currenciesLoading, setCurrenciesLoading] = useState(true);
 
   useEffect(() => {
     const abortController = new AbortController();
     const { signal } = abortController;
+
     const doFetch = async () => {
       try {
         const currencyService = new CurrencyService();
@@ -20,9 +21,9 @@ const useFetchCurrencies = () => {
           curr.sort((a, b) => getCurrencyPriority(a.symbol) - getCurrencyPriority(b.symbol));
           setCurrencies(curr);
         }
-      } catch (e) {
+      } catch (error) {
         if (!signal.aborted) {
-          setCurrenciesError(e);
+          setCurrenciesError(error as Error);
         }
       } finally {
         if (!signal.aborted) {
@@ -30,7 +31,10 @@ const useFetchCurrencies = () => {
         }
       }
     };
-    doFetch(); return () => {
+
+    doFetch();
+    
+    return () => {
       abortController.abort();
     };
   }, []);
