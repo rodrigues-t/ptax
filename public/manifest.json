@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "PTAX Hoje",
+  "name": "Cotações PTAX hoje e histórico",
   "icons": [
     {
       "src": "favicon.ico",
